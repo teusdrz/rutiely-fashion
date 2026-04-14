@@ -88,8 +88,8 @@ export default function HeroSection({ isVisible }: HeroSectionProps) {
             className="relative w-full h-screen flex flex-col overflow-hidden"
             style={{ background: "#FFF1FC", visibility: "hidden" }}
         >
-            <div className="flex flex-1 pt-24" style={{ paddingLeft: "5%", paddingRight: "3%" }}>
-                <div className="flex flex-col justify-center lg:w-[55%] gap-10 pb-20" style={{ paddingLeft: "4%" }}>
+            <div className="flex flex-1 pt-20 md:pt-24" style={{ paddingLeft: "5%", paddingRight: "3%" }}>
+                <div className="flex flex-col justify-center lg:w-[55%] gap-6 md:gap-10 pb-28 md:pb-20" style={{ paddingLeft: "4%" }}>
                     <h1
                         ref={headingRef}
                         className="text-2xl md:text-3xl lg:text-[1.85rem] font-normal leading-[1.4] tracking-[0.12em] uppercase whitespace-normal"
@@ -135,10 +135,10 @@ export default function HeroSection({ isVisible }: HeroSectionProps) {
                 </div>
             </div>
 
-            <div className="absolute bottom-8 left-0 right-0 flex items-center justify-center">
+            <div className="absolute bottom-6 md:bottom-8 left-0 right-0 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-0">
                 <div
                     ref={footerRef}
-                    className="absolute left-10 lg:left-16 flex items-center gap-4"
+                    className="flex items-center gap-3 md:gap-4 md:absolute md:left-10 lg:left-16"
                     style={{ visibility: "hidden" }}
                 >
                     <Image
@@ -146,10 +146,10 @@ export default function HeroSection({ isVisible }: HeroSectionProps) {
                         alt=""
                         width={32}
                         height={32}
-                        className="object-contain opacity-50"
+                        className="object-contain opacity-50 w-6 h-6 md:w-8 md:h-8"
                     />
                     <p
-                        className="font-body text-[11px] font-medium tracking-[0.12em] uppercase leading-relaxed"
+                        className="font-body text-[9px] md:text-[11px] font-medium tracking-[0.12em] uppercase leading-relaxed text-center md:text-left"
                         style={{ color: "var(--rose-600)" }}
                     >
                         Conforto e cor em perfeita harmonia.
@@ -160,7 +160,7 @@ export default function HeroSection({ isVisible }: HeroSectionProps) {
 
                 <span
                     ref={arrowRef}
-                    className="text-3xl font-light select-none"
+                    className="text-2xl md:text-3xl font-light select-none"
                     style={{ color: "var(--rose-700)", visibility: "hidden" }}
                 >
                     ↓

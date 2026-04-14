@@ -127,7 +127,7 @@ export default function CategoriesSection() {
                 <div className="flex items-center justify-between" style={{ marginBottom: "60px" }}>
                     <h2
                         ref={headingRef}
-                        className="text-4xl md:text-5xl lg:text-[3.5rem] font-normal leading-[1.15] tracking-[0.02em] uppercase whitespace-nowrap"
+                        className="text-[1.75rem] md:text-5xl lg:text-[3.5rem] font-normal leading-[1.1] tracking-[0.02em] uppercase"
                         style={{ color: "#fff", fontFamily: "var(--font-julius)" }}
                     >
                         Encontre sua essência
