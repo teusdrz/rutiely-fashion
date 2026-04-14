@@ -7,39 +7,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Link from "next/link";
 import ProductModal from "@/components/modelos/ProductModal";
+import { products } from "@/data/products";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
-
-const products = [
-    {
-        id: 1,
-        title: "Conjunto de Alfaiataria Premium em Tom Rosê",
-        subtitle: "Elegância e versatilidade em uma só peça",
-        price: "R$ 80,00",
-        image: "/images/Modelo.png",
-    },
-    {
-        id: 2,
-        title: "Conjunto de Alfaiataria Premium em Tom Rosê",
-        subtitle: "Elegância e versatilidade em uma só peça",
-        price: "R$ 80,00",
-        image: "/images/Modelo.png",
-    },
-    {
-        id: 3,
-        title: "Conjunto de Alfaiataria Premium em Tom Rosê",
-        subtitle: "Elegância e versatilidade em uma só peça",
-        price: "R$ 80,00",
-        image: "/images/Modelo.png",
-    },
-    {
-        id: 4,
-        title: "Conjunto de Alfaiataria Premium em Tom Rosê",
-        subtitle: "Elegância e versatilidade em uma só peça",
-        price: "R$ 80,00",
-        image: "/images/Modelo.png",
-    },
-];
 
 export default function ModelosPage() {
     const pageRef = useRef<HTMLDivElement>(null);

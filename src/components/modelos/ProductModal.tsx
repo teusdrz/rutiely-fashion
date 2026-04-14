@@ -1,32 +1,18 @@
 "use client";
 
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
+import { type Product, productColors, productSizes } from "@/data/products";
 
 gsap.registerPlugin(useGSAP);
-
-interface Product {
-    id: number;
-    title: string;
-    subtitle: string;
-    price: string;
-    image: string;
-}
 
 interface ProductModalProps {
     product: Product | null;
     onClose: () => void;
 }
-
-const sizes = ["PP", "P", "M", "G", "GG"];
-
-const colors = [
-    { name: "Rosê", hex: "#c9a0a5" },
-    { name: "Nude", hex: "#d4b5a0" },
-    { name: "Preto", hex: "#2a2a2a" },
-];
 
 export default function ProductModal({ product, onClose }: ProductModalProps) {
     const overlayRef = useRef<HTMLDivElement>(null);
@@ -34,6 +20,10 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
     const imageRef = useRef<HTMLDivElement>(null);
     const infoRef = useRef<HTMLDivElement>(null);
     const closeBtnRef = useRef<HTMLButtonElement>(null);
+    const router = useRouter();
+
+    const [selectedColor, setSelectedColor] = useState(productColors[0].name);
+    const [selectedSize, setSelectedSize] = useState("");
 
     /* ── Close on Escape ── */
     useEffect(() => {
@@ -281,23 +271,24 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                                 marginBottom: "14px",
                             }}
                         >
-                            Cor selecionada: Rosê
+                            Cor selecionada: {selectedColor}
                         </span>
 
                         <div className="flex gap-3">
-                            {colors.map((color) => (
+                            {productColors.map((color) => (
                                 <button
                                     key={color.name}
+                                    onClick={() => setSelectedColor(color.name)}
                                     className="relative cursor-pointer"
                                     style={{
                                         width: "36px",
                                         height: "36px",
                                         borderRadius: "50%",
                                         background: color.hex,
-                                        border: color.name === "Rosê"
+                                        border: color.name === selectedColor
                                             ? "2px solid var(--rose-800)"
                                             : "2px solid transparent",
-                                        outline: color.name === "Rosê"
+                                        outline: color.name === selectedColor
                                             ? "2px solid var(--rose-200)"
                                             : "none",
                                         outlineOffset: "2px",
@@ -318,20 +309,21 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                                 marginBottom: "14px",
                             }}
                         >
-                            Selecione um tamanho
+                            {selectedSize ? `Tamanho: ${selectedSize}` : "Selecione um tamanho"}
                         </span>
 
                         <div className="flex gap-3">
-                            {sizes.map((size) => (
+                            {productSizes.map((size) => (
                                 <button
                                     key={size}
+                                    onClick={() => setSelectedSize(size)}
                                     className="flex items-center justify-center cursor-pointer text-[11px] font-normal tracking-[0.1em] uppercase transition-colors duration-300"
                                     style={{
                                         width: "44px",
                                         height: "44px",
                                         border: "1px solid var(--rose-300)",
-                                        background: size === "M" ? "var(--rose-800)" : "transparent",
-                                        color: size === "M" ? "#FFF1FC" : "var(--rose-800)",
+                                        background: size === selectedSize ? "var(--rose-800)" : "transparent",
+                                        color: size === selectedSize ? "#FFF1FC" : "var(--rose-800)",
                                         fontFamily: "var(--font-julius)",
                                     }}
                                     aria-label={`Tamanho ${size}`}
@@ -358,14 +350,21 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
                     {/* CTA Button */}
                     <button
+                        onClick={() => {
+                            if (!selectedSize || !product) return;
+                            router.push(
+                                `/checkout?productId=${product.id}&color=${encodeURIComponent(selectedColor)}&size=${selectedSize}`
+                            );
+                        }}
                         className="self-start group relative overflow-hidden text-[11px] font-normal tracking-[0.18em] uppercase cursor-pointer"
                         style={{
                             fontFamily: "var(--font-julius)",
                             padding: "18px 52px",
                             marginTop: "32px",
-                            background: "var(--rose-500)",
+                            background: selectedSize ? "var(--rose-500)" : "var(--rose-300)",
                             color: "#fff",
                             border: "none",
+                            pointerEvents: selectedSize ? "auto" : "none",
                         }}
                     >
                         <span
@@ -373,7 +372,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                             style={{ background: "var(--rose-800)" }}
                         />
                         <span className="relative z-10 flex items-center gap-3">
-                            Solicitar Orçamento
+                            Comprar Agora
                             <svg
                                 width="15"
                                 height="15"
