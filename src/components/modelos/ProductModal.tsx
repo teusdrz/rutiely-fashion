@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
-import { type Product, productColors, productSizes } from "@/data/products";
+import { type Product, productSizes } from "@/data/products";
 
 gsap.registerPlugin(useGSAP);
 
@@ -22,8 +22,12 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
     const closeBtnRef = useRef<HTMLButtonElement>(null);
     const router = useRouter();
 
-    const [selectedColor, setSelectedColor] = useState(productColors[0].name);
     const [selectedSize, setSelectedSize] = useState("");
+    const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+    useEffect(() => {
+        setActiveImageIndex(0);
+    }, [product]);
 
     /* ── Close on Escape ── */
     useEffect(() => {
@@ -171,12 +175,41 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                     }}
                 >
                     <Image
-                        src={product.image}
+                        src={product.images[activeImageIndex]}
                         alt={product.title}
                         fill
                         className="object-cover"
                         sizes="(max-width: 1024px) 100vw, 45vw"
                     />
+
+                    {product.images.length > 1 && (
+                        <div
+                            className="absolute z-10 flex gap-2"
+                            style={{ bottom: "20px", left: "20px" }}
+                        >
+                            {product.images.map((_, i) => (
+                                <button
+                                    key={i}
+                                    onClick={() => setActiveImageIndex(i)}
+                                    className="cursor-pointer text-[9px] font-normal tracking-[0.15em] uppercase"
+                                    style={{
+                                        padding: "8px 16px",
+                                        fontFamily: "var(--font-julius)",
+                                        background: i === activeImageIndex
+                                            ? "var(--rose-800)"
+                                            : "rgba(255, 241, 252, 0.85)",
+                                        color: i === activeImageIndex
+                                            ? "#FFF1FC"
+                                            : "var(--rose-800)",
+                                        border: "1px solid var(--rose-300)",
+                                        backdropFilter: "blur(4px)",
+                                    }}
+                                >
+                                    {i === 0 ? "Frente" : "Costas"}
+                                </button>
+                            ))}
+                        </div>
+                    )}
 
                     {/* Sparkle decoration */}
                     <div
@@ -261,44 +294,6 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                         ou 3x de R$ 26,67 sem juros
                     </span>
 
-                    {/* Color selector */}
-                    <div style={{ marginTop: "32px" }}>
-                        <span
-                            className="block text-[10px] font-normal tracking-[0.15em] uppercase"
-                            style={{
-                                color: "var(--rose-800)",
-                                fontFamily: "var(--font-julius)",
-                                marginBottom: "14px",
-                            }}
-                        >
-                            Cor selecionada: {selectedColor}
-                        </span>
-
-                        <div className="flex gap-3">
-                            {productColors.map((color) => (
-                                <button
-                                    key={color.name}
-                                    onClick={() => setSelectedColor(color.name)}
-                                    className="relative cursor-pointer"
-                                    style={{
-                                        width: "36px",
-                                        height: "36px",
-                                        borderRadius: "50%",
-                                        background: color.hex,
-                                        border: color.name === selectedColor
-                                            ? "2px solid var(--rose-800)"
-                                            : "2px solid transparent",
-                                        outline: color.name === selectedColor
-                                            ? "2px solid var(--rose-200)"
-                                            : "none",
-                                        outlineOffset: "2px",
-                                    }}
-                                    aria-label={`Cor ${color.name}`}
-                                />
-                            ))}
-                        </div>
-                    </div>
-
                     {/* Size selector */}
                     <div style={{ marginTop: "28px" }}>
                         <span
@@ -353,7 +348,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                         onClick={() => {
                             if (!selectedSize || !product) return;
                             router.push(
-                                `/checkout?productId=${product.id}&color=${encodeURIComponent(selectedColor)}&size=${selectedSize}`
+                                `/checkout?productId=${product.id}&size=${selectedSize}`
                             );
                         }}
                         className="self-start group relative overflow-hidden text-[11px] font-normal tracking-[0.18em] uppercase cursor-pointer"

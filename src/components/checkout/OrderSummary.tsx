@@ -64,7 +64,7 @@ export default function OrderSummary({
             >
                 <div className="relative" style={{ height: "280px" }}>
                     <Image
-                        src={product.image}
+                        src={product.images[0]}
                         alt={product.title}
                         fill
                         className="object-cover object-top"

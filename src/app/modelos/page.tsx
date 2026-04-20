@@ -1,17 +1,21 @@
 "use client";
 
-import { useRef, useCallback, useState } from "react";
+import { useRef, useCallback, useState, useMemo, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Link from "next/link";
 import ProductModal from "@/components/modelos/ProductModal";
-import { products } from "@/data/products";
+import { products, type Product } from "@/data/products";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-export default function ModelosPage() {
+function ModelosContent() {
+    const searchParams = useSearchParams();
+    const categoriaParam = searchParams.get("categoria");
+
     const pageRef = useRef<HTMLDivElement>(null);
     const lineImageRef = useRef<HTMLDivElement>(null);
     const butterflyRef = useRef<HTMLDivElement>(null);
@@ -23,7 +27,12 @@ export default function ModelosPage() {
     const logoRef = useRef<HTMLDivElement>(null);
     const linksRef = useRef<HTMLUListElement>(null);
     const actionsRef = useRef<HTMLDivElement>(null);
-    const [selectedProduct, setSelectedProduct] = useState<typeof products[number] | null>(null);
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+    const filteredProducts = useMemo(() => {
+        if (!categoriaParam) return products;
+        return products.filter((p) => p.category === categoriaParam);
+    }, [categoriaParam]);
 
     const navLinks = [
         { label: "Início", href: "/" },
@@ -111,13 +120,23 @@ export default function ModelosPage() {
 
     return (
         <div ref={pageRef} className="relative min-h-screen" style={{ background: "#FFF1FC" }}>
+            <style>{`
+                @media (max-width: 767px) {
+                    .modelos-line-image { display: none !important; }
+                    .modelos-butterfly { right: 4% !important; top: 10% !important; }
+                    .modelos-butterfly img { width: 80px !important; height: 80px !important; }
+                    .modelos-nav { padding-left: 16px !important; padding-right: 16px !important; }
+                    .modelos-nav-logo img { width: 36px !important; height: 36px !important; }
+                    .modelos-content { padding: 120px 5% 60px !important; }
+                }
+            `}</style>
             {/* ── Navbar ── */}
             <nav
                 ref={navRef}
-                className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-10 py-4 lg:px-16"
+                className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-10 py-4 lg:px-16 modelos-nav"
                 style={{ background: "#FFF1FC" }}
             >
-                <div ref={logoRef} className="flex items-center gap-4">
+                <div ref={logoRef} className="flex items-center gap-4 modelos-nav-logo">
                     <Image
                         src="/images/Butterfly.png"
                         alt="Rutiely Fashion"
@@ -175,7 +194,7 @@ export default function ModelosPage() {
             {/* ── Decorative line ── */}
             <div
                 ref={lineImageRef}
-                className="absolute left-0 top-0 pointer-events-none"
+                className="absolute left-0 top-0 pointer-events-none modelos-line-image"
                 style={{ width: "280px", height: "70%" }}
             >
                 <Image
@@ -189,7 +208,7 @@ export default function ModelosPage() {
             {/* ── Decorative butterfly ── */}
             <div
                 ref={butterflyRef}
-                className="absolute pointer-events-none"
+                className="absolute pointer-events-none modelos-butterfly"
                 style={{ right: "16%", top: "18%" }}
             >
                 <Image
@@ -202,7 +221,7 @@ export default function ModelosPage() {
             </div>
 
             {/* ── Content ── */}
-            <div className="relative" style={{ padding: "180px 5% 100px" }}>
+            <div className="relative modelos-content" style={{ padding: "180px 5% 100px" }}>
                 {/* Title */}
                 <h1
                     ref={titleRef}
@@ -237,7 +256,7 @@ export default function ModelosPage() {
                     ref={gridRef}
                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
                 >
-                    {products.map((product, index) => (
+                    {filteredProducts.map((product, index) => (
                         <div
                             key={product.id}
                             ref={(el) => { cardRefs.current[index] = el; }}
@@ -252,7 +271,7 @@ export default function ModelosPage() {
                                 style={{ aspectRatio: "3 / 4" }}
                             >
                                 <Image
-                                    src={product.image}
+                                    src={product.images[0]}
                                     alt={product.title}
                                     fill
                                     className="object-cover"
@@ -324,5 +343,13 @@ export default function ModelosPage() {
                 onClose={() => setSelectedProduct(null)}
             />
         </div>
+    );
+}
+
+export default function ModelosPage() {
+    return (
+        <Suspense>
+            <ModelosContent />
+        </Suspense>
     );
 }
