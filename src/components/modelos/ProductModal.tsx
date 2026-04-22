@@ -263,14 +263,14 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                 {/* ── Info side ── */}
                 <div
                     ref={infoRef}
-                    className="flex flex-col items-center lg:items-start lg:w-[55%] overflow-y-auto px-6 py-10 pb-16 lg:py-[48px] lg:px-[40px]"
+                    className="flex flex-col items-center lg:items-start lg:w-[55%] overflow-y-auto px-7 pt-12 pb-20 lg:py-[48px] lg:px-[40px]"
                     style={{
                         visibility: "hidden",
                     }}
                 >
                     {/* Subtitle */}
                     <span
-                        className="text-[10px] font-normal tracking-[0.2em] uppercase mb-7 lg:mb-3 text-center lg:text-left"
+                        className="text-[10px] font-normal tracking-[0.2em] uppercase mb-10 lg:mb-3 text-center lg:text-left"
                         style={{
                             color: "var(--rose-500)",
                             fontFamily: "var(--font-julius)",
@@ -292,7 +292,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
                     {/* Divider */}
                     <div
-                        className="w-full mt-8 mb-8 lg:mt-6 lg:mb-6"
+                        className="w-full mt-10 mb-10 lg:mt-6 lg:mb-6"
                         style={{
                             height: "1px",
                             background: "var(--rose-200)",
@@ -311,7 +311,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                     </span>
 
                     <span
-                        className="text-[10px] font-normal tracking-[0.1em] uppercase mt-4 lg:mt-[6px] text-center lg:text-left"
+                        className="text-[10px] font-normal tracking-[0.1em] uppercase mt-6 lg:mt-[6px] text-center lg:text-left"
                         style={{
                             color: "var(--rose-600)",
                             fontFamily: "var(--font-julius)",
@@ -321,9 +321,9 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                     </span>
 
                     {/* Size selector */}
-                    <div className="mt-10 lg:mt-7 w-full">
+                    <div className="mt-14 lg:mt-7 w-full">
                         <span
-                            className="block text-[10px] font-normal tracking-[0.15em] uppercase mb-5 lg:mb-[14px] text-center lg:text-left"
+                            className="block text-[10px] font-normal tracking-[0.15em] uppercase mb-7 lg:mb-[14px] text-center lg:text-left"
                             style={{
                                 color: "var(--rose-800)",
                                 fontFamily: "var(--font-julius)",
@@ -356,7 +356,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
                     {/* Description */}
                     <p
-                        className="text-[11px] font-normal leading-[2] tracking-[0.04em] uppercase text-center lg:text-left mt-10 lg:mt-7"
+                        className="text-[11px] font-normal leading-[2] tracking-[0.04em] uppercase text-center lg:text-left mt-14 lg:mt-7"
                         style={{
                             color: "#555",
                             fontFamily: "var(--font-julius)",
@@ -375,7 +375,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                                 `/checkout?productId=${product.id}&size=${selectedSize}`
                             );
                         }}
-                        className="w-full lg:w-auto lg:self-start group relative overflow-hidden text-[11px] font-normal tracking-[0.18em] uppercase cursor-pointer mt-10 lg:mt-8"
+                        className="w-full lg:w-auto lg:self-start group relative overflow-hidden text-[11px] font-normal tracking-[0.18em] uppercase cursor-pointer mt-14 lg:mt-8"
                         style={{
                             fontFamily: "var(--font-julius)",
                             padding: "18px 52px",
