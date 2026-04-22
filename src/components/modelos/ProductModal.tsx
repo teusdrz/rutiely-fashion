@@ -24,6 +24,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
     const [selectedSize, setSelectedSize] = useState("");
     const [activeImageIndex, setActiveImageIndex] = useState(0);
+    const [lightboxOpen, setLightboxOpen] = useState(false);
 
     useEffect(() => {
         setActiveImageIndex(0);
@@ -114,22 +115,20 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
     return (
         <div
             ref={overlayRef}
-            className="fixed inset-0 z-50 flex items-center justify-center"
+            className="fixed inset-0 z-50 flex items-start lg:items-center justify-center p-3 lg:p-6"
             style={{
                 backdropFilter: "blur(12px)",
                 WebkitBackdropFilter: "blur(12px)",
                 background: "rgba(74, 50, 56, 0.3)",
-                padding: "24px",
                 visibility: "hidden",
             }}
             onClick={handleOverlayClick}
         >
             <div
                 ref={cardRef}
-                className="relative flex flex-col lg:flex-row w-full overflow-hidden"
+                className="relative flex flex-col lg:flex-row w-full overflow-y-auto lg:overflow-hidden max-h-[calc(100dvh-24px)] lg:max-h-[80vh] lg:h-[80vh]"
                 style={{
-                    maxWidth: "1050px",
-                    maxHeight: "90vh",
+                    maxWidth: "1200px",
                     background: "#FFF1FC",
                     boxShadow: "0 30px 80px rgba(74, 50, 56, 0.25)",
                     visibility: "hidden",
@@ -168,19 +167,49 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                 {/* ── Image side ── */}
                 <div
                     ref={imageRef}
-                    className="relative lg:w-[45%] flex-shrink-0"
+                    className="relative lg:w-[45%] flex-shrink-0 h-[420px] lg:h-auto lg:min-h-[700px] cursor-zoom-in"
                     style={{
-                        minHeight: "400px",
                         visibility: "hidden",
                     }}
+                    onClick={() => setLightboxOpen(true)}
                 >
                     <Image
                         src={product.images[activeImageIndex]}
                         alt={product.title}
                         fill
-                        className="object-cover"
+                        className="object-cover object-top lg:object-center"
                         sizes="(max-width: 1024px) 100vw, 45vw"
                     />
+
+                    {/* Expand hint */}
+                    <div
+                        className="absolute top-3 left-3 z-10 flex items-center gap-1.5 pointer-events-none"
+                        style={{
+                            padding: "6px 10px",
+                            background: "rgba(255, 241, 252, 0.78)",
+                            backdropFilter: "blur(4px)",
+                            border: "1px solid var(--rose-200)",
+                        }}
+                    >
+                        <svg
+                            width="11"
+                            height="11"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="var(--rose-800)"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                        <span
+                            className="text-[9px] tracking-[0.12em] uppercase"
+                            style={{ fontFamily: "var(--font-julius)", color: "var(--rose-800)" }}
+                        >
+                            Ampliar
+                        </span>
+                    </div>
 
                     {product.images.length > 1 && (
                         <div
@@ -190,7 +219,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                             {product.images.map((_, i) => (
                                 <button
                                     key={i}
-                                    onClick={() => setActiveImageIndex(i)}
+                                    onClick={(e) => { e.stopPropagation(); setActiveImageIndex(i); }}
                                     className="cursor-pointer text-[9px] font-normal tracking-[0.15em] uppercase"
                                     style={{
                                         padding: "8px 16px",
@@ -234,15 +263,14 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                 {/* ── Info side ── */}
                 <div
                     ref={infoRef}
-                    className="flex flex-col lg:w-[55%] overflow-y-auto"
+                    className="flex flex-col items-center lg:items-start lg:w-[55%] overflow-y-auto px-5 py-6 pb-8 lg:py-[48px] lg:px-[40px]"
                     style={{
-                        padding: "48px 40px",
                         visibility: "hidden",
                     }}
                 >
                     {/* Subtitle */}
                     <span
-                        className="text-[10px] font-normal tracking-[0.2em] uppercase"
+                        className="text-[10px] font-normal tracking-[0.2em] uppercase text-center lg:text-left"
                         style={{
                             color: "var(--rose-500)",
                             fontFamily: "var(--font-julius)",
@@ -254,7 +282,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
                     {/* Title */}
                     <h2
-                        className="text-2xl md:text-3xl font-normal tracking-[0.04em] uppercase leading-[1.3]"
+                        className="text-2xl md:text-3xl font-normal tracking-[0.04em] uppercase leading-[1.3] text-center lg:text-left w-full"
                         style={{
                             color: "var(--rose-900)",
                             fontFamily: "var(--font-julius)",
@@ -265,16 +293,16 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
                     {/* Divider */}
                     <div
+                        className="w-full my-4 lg:my-6"
                         style={{
                             height: "1px",
                             background: "var(--rose-200)",
-                            margin: "24px 0",
                         }}
                     />
 
                     {/* Price */}
                     <span
-                        className="text-2xl font-normal tracking-[0.02em]"
+                        className="text-2xl font-normal tracking-[0.02em] text-center lg:text-left"
                         style={{
                             color: "var(--rose-900)",
                             fontFamily: "var(--font-julius)",
@@ -284,7 +312,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                     </span>
 
                     <span
-                        className="text-[10px] font-normal tracking-[0.1em] uppercase"
+                        className="text-[10px] font-normal tracking-[0.1em] uppercase text-center lg:text-left"
                         style={{
                             color: "var(--rose-600)",
                             fontFamily: "var(--font-julius)",
@@ -295,9 +323,9 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                     </span>
 
                     {/* Size selector */}
-                    <div style={{ marginTop: "28px" }}>
+                    <div className="mt-5 lg:mt-7 w-full">
                         <span
-                            className="block text-[10px] font-normal tracking-[0.15em] uppercase"
+                            className="block text-[10px] font-normal tracking-[0.15em] uppercase text-center lg:text-left"
                             style={{
                                 color: "var(--rose-800)",
                                 fontFamily: "var(--font-julius)",
@@ -307,7 +335,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                             {selectedSize ? `Tamanho: ${selectedSize}` : "Selecione um tamanho"}
                         </span>
 
-                        <div className="flex gap-3">
+                        <div className="flex gap-3 justify-center lg:justify-start">
                             {productSizes.map((size) => (
                                 <button
                                     key={size}
@@ -331,11 +359,10 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
                     {/* Description */}
                     <p
-                        className="text-[11px] font-normal leading-[2] tracking-[0.04em] uppercase"
+                        className="text-[11px] font-normal leading-[2] tracking-[0.04em] uppercase text-center lg:text-left mt-5 lg:mt-7"
                         style={{
                             color: "#555",
                             fontFamily: "var(--font-julius)",
-                            marginTop: "28px",
                             maxWidth: "400px",
                         }}
                     >
@@ -351,11 +378,10 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                                 `/checkout?productId=${product.id}&size=${selectedSize}`
                             );
                         }}
-                        className="self-start group relative overflow-hidden text-[11px] font-normal tracking-[0.18em] uppercase cursor-pointer"
+                        className="w-full lg:w-auto lg:self-start group relative overflow-hidden text-[11px] font-normal tracking-[0.18em] uppercase cursor-pointer mt-5 lg:mt-8"
                         style={{
                             fontFamily: "var(--font-julius)",
                             padding: "18px 52px",
-                            marginTop: "32px",
                             background: selectedSize ? "var(--rose-500)" : "var(--rose-300)",
                             color: "#fff",
                             border: "none",
@@ -384,6 +410,47 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                     </button>
                 </div>
             </div>
+
+            {/* ── Fullscreen Lightbox ── */}
+            {lightboxOpen && (
+                <div
+                    className="fixed inset-0 z-[200] flex items-center justify-center"
+                    style={{ background: "rgba(0, 0, 0, 0.93)" }}
+                    onClick={() => setLightboxOpen(false)}
+                >
+                    <div className="relative w-full h-[90vh] max-w-[600px] mx-4">
+                        <Image
+                            src={product.images[activeImageIndex]}
+                            alt={product.title}
+                            fill
+                            className="object-contain"
+                            sizes="100vw"
+                        />
+                    </div>
+                    <button
+                        className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center cursor-pointer"
+                        style={{
+                            background: "rgba(255,255,255,0.1)",
+                            border: "1px solid rgba(255,255,255,0.25)",
+                        }}
+                        onClick={(e) => { e.stopPropagation(); setLightboxOpen(false); }}
+                        aria-label="Fechar visualização"
+                    >
+                        <svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="white"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <path d="M18 6L6 18M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

@@ -39,8 +39,8 @@ export const products: Product[] = [
         id: 3,
         title: "Camiseta Básica Listrada",
         subtitle: "Estilo casual com personalidade",
-        price: "R$ 64,90",
-        priceValue: 64.9,
+        price: "R$ 59,90",
+        priceValue: 59.9,
         images: [
             `${IMG_BASE}/camiseta-basica-listrada/camiseta-listrada-frente.png`,
             `${IMG_BASE}/camiseta-basica-listrada/camiseta-listrada-costa.png`,
@@ -63,8 +63,8 @@ export const products: Product[] = [
         id: 5,
         title: "Blazer Cinza Estruturado",
         subtitle: "Sofisticação para todas as ocasiões",
-        price: "R$ 149,90",
-        priceValue: 149.9,
+        price: "R$ 59,90",
+        priceValue: 59.9,
         images: [
             `${IMG_BASE}/camiseta-blazer-cinza/blazer-cinza-frente.png`,
             `${IMG_BASE}/camiseta-blazer-cinza/blazer-cinza-costa.png`,
@@ -79,4 +79,4 @@ export const productColors = [
     { name: "Preto", hex: "#2a2a2a" },
 ];
 
-export const productSizes = ["PP", "P", "M", "G", "GG"];
+export const productSizes = ["38", "40", "42", "44"];
