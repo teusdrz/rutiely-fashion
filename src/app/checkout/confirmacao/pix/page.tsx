@@ -31,6 +31,16 @@ function PixContent() {
     const subtotal = parseFloat(searchParams.get("subtotal") || "0");
     const shipping = parseFloat(searchParams.get("shipping") || "0");
     const discount = parseFloat(searchParams.get("discount") || "0");
+    const customerName = searchParams.get("customerName") || "";
+    const customerPhone = searchParams.get("phone") || "";
+    const customerCpf = searchParams.get("cpf") || "";
+    const deliveryMethod = searchParams.get("deliveryMethod") || "pickup";
+    const address = searchParams.get("address") || "";
+    const addressNumber = searchParams.get("addressNumber") || "";
+    const complement = searchParams.get("complement") || "";
+    const neighborhood = searchParams.get("neighborhood") || "";
+    const city = searchParams.get("city") || "";
+    const cep = searchParams.get("cep") || "";
 
     const [pixCode] = useState(() => generatePixCode(orderNumber));
     const [copied, setCopied] = useState(false);
@@ -64,10 +74,39 @@ function PixContent() {
     }, [pixCode]);
 
     const handleConfirmPayment = useCallback(() => {
-        const message = `Olá! Realizei o pagamento via PIX do pedido *${orderNumber}*. Gostaria de verificar o pagamento e combinar a retirada/entrega.`;
-        const phone = "5511945630351";
-        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, "_blank");
-    }, [orderNumber]);
+        const isDelivery = deliveryMethod === "delivery";
+        const addressLine = isDelivery
+            ? `${address}, ${addressNumber}${complement ? ` - ${complement}` : ""}, ${neighborhood}, ${city} - CEP: ${cep}`
+            : "Retirada na loja";
+
+        const message = [
+            `🛍️ *Novo Pedido - Rutiely Fashion*`,
+            ``,
+            `*Pedido:* ${orderNumber}`,
+            `*Produto:* ${productTitle}`,
+            `*Cor:* ${color} | *Tamanho:* ${size}`,
+            ``,
+            `👤 *Dados do Cliente*`,
+            `*Nome:* ${customerName}`,
+            `*Telefone:* ${customerPhone}`,
+            `*CPF:* ${customerCpf}`,
+            ``,
+            `📦 *Entrega/Retirada*`,
+            `*Modalidade:* ${isDelivery ? "Entrega" : "Retirada na loja"}`,
+            ...(isDelivery ? [`*Endereço:* ${addressLine}`] : []),
+            ``,
+            `💰 *Valores*`,
+            `*Subtotal:* R$ ${subtotal.toFixed(2).replace(".", ",")}`,
+            ...(discount > 0 ? [`*Desconto PIX (5%):* -R$ ${discount.toFixed(2).replace(".", ",")}`] : []),
+            ...(isDelivery ? [`*Frete:* R$ ${shipping.toFixed(2).replace(".", ",")}`] : []),
+            `*Total:* R$ ${total.toFixed(2).replace(".", ",")}`,
+            ``,
+            `✅ Pagamento realizado via *PIX*. Por favor, confirme o recebimento e ${isDelivery ? "combine a entrega" : "avise quando o pedido estiver pronto para retirada"}.`,
+        ].join("\n");
+
+        const rutiPhone = "5511945630351";
+        window.open(`https://wa.me/${rutiPhone}?text=${encodeURIComponent(message)}`, "_blank");
+    }, [orderNumber, productTitle, color, size, customerName, customerPhone, customerCpf, deliveryMethod, address, addressNumber, complement, neighborhood, city, cep, subtotal, discount, shipping, total]);
 
     useGSAP(() => {
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
