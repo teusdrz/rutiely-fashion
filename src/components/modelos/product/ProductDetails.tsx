@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import type { Product } from "@/data/products";
-import { productColors } from "@/data/products";
 import ProductHeader from "./ProductHeader";
-import ColorSelector from "./ColorSelector";
 import SizeSelector from "./SizeSelector";
 import ProductActions from "./ProductActions";
 
@@ -13,11 +11,10 @@ interface ProductDetailsProps {
 }
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
-    const [selectedColor, setSelectedColor] = useState(productColors[0].name);
     const [selectedSize, setSelectedSize] = useState("");
 
     return (
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col" style={{ gap: "44px" }}>
             <ProductHeader product={product} />
 
             <div
@@ -25,14 +22,12 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                 style={{ height: "1px", background: "var(--rose-200)" }}
             />
 
-            <ColorSelector selected={selectedColor} onSelect={setSelectedColor} />
-
             <SizeSelector selected={selectedSize} onSelect={setSelectedSize} />
 
-            <ProductActions productId={product.id} selectedSize={selectedSize} />
+            <ProductActions product={product} selectedSize={selectedSize} />
 
             {/* Description */}
-            <div className="flex flex-col gap-4 mt-2">
+            <div className="flex flex-col" style={{ gap: "18px", marginTop: "12px" }}>
                 <span
                     className="text-[10px] tracking-[0.22em] uppercase"
                     style={{ fontFamily: "var(--font-julius)", color: "var(--rose-800)" }}
@@ -40,7 +35,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                     Descrição
                 </span>
                 <p
-                    className="text-[11px] leading-[2] tracking-[0.04em] uppercase"
+                    className="text-[11px] leading-[2.1] tracking-[0.05em] uppercase"
                     style={{ fontFamily: "var(--font-julius)", color: "#555" }}
                 >
                     Peça sofisticada e atemporal, confeccionada com tecido de alta qualidade.

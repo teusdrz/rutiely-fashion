@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Link from "next/link";
 import Image from "next/image";
+import CartIcon from "@/components/cart/CartIcon";
 
 gsap.registerPlugin(useGSAP);
 
@@ -107,7 +108,7 @@ export default function Navbar({ isVisible }: NavbarProps) {
                     <div
                         ref={actionsRef}
                         className="flex items-center"
-                        style={{ visibility: "hidden" }}
+                        style={{ visibility: "hidden", gap: "20px" }}
                     >
                         <Link
                             href="#orcamento"
@@ -122,6 +123,8 @@ export default function Navbar({ isVisible }: NavbarProps) {
                                 Orçamento
                             </span>
                         </Link>
+
+                        <CartIcon />
                     </div>
                 </div>
 
@@ -155,8 +158,8 @@ export default function Navbar({ isVisible }: NavbarProps) {
                         </Link>
                     </div>
 
-                    {/* Orçamento + Hamburger */}
-                    <div className="flex items-center gap-3">
+                    {/* Orçamento + Cart + Hamburger */}
+                    <div className="flex items-center gap-2">
                         <Link
                             href="#orcamento"
                             className="font-body text-[9px] font-semibold tracking-[0.15em] uppercase border px-3 py-1.5"
@@ -167,6 +170,8 @@ export default function Navbar({ isVisible }: NavbarProps) {
                         >
                             Orçamento
                         </Link>
+
+                        <CartIcon />
 
                         <button
                             onClick={toggleMobile}
@@ -262,7 +267,7 @@ export default function Navbar({ isVisible }: NavbarProps) {
                 {/* Links centralizados — área principal */}
                 <div className="flex-1 flex flex-col items-center justify-center px-8">
                     <ul className="flex flex-col items-center gap-2">
-                        {navLinks.map((item, i) => (
+                        {navLinks.map((item) => (
                             <li key={item.label} className="w-full">
                                 <Link
                                     href={item.href}

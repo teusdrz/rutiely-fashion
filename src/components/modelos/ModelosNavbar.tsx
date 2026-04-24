@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import CartIcon from "@/components/cart/CartIcon";
 
 gsap.registerPlugin(useGSAP);
 
@@ -78,11 +79,11 @@ export default function ModelosNavbar() {
                 ))}
             </ul>
 
-            <div ref={actionsRef} className="flex items-center">
+            <div ref={actionsRef} className="flex items-center" style={{ gap: "20px" }}>
                 <Link
                     href="/#orcamento"
                     className="group relative font-body text-xs font-medium tracking-[0.2em] uppercase border overflow-hidden border-[var(--rose-800)]"
-                    style={{ padding: "14px 40px", marginRight: "24px" }}
+                    style={{ padding: "14px 40px" }}
                 >
                     <span
                         className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
@@ -92,6 +93,8 @@ export default function ModelosNavbar() {
                         Orçamento
                     </span>
                 </Link>
+
+                <CartIcon />
             </div>
         </nav>
     );

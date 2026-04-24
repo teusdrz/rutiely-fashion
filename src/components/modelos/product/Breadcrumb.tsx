@@ -15,11 +15,11 @@ export default function Breadcrumb({ category, title }: BreadcrumbProps) {
     return (
         <nav
             aria-label="Navegação"
-            className="flex flex-wrap items-center gap-2 text-[10px] tracking-[0.2em] uppercase"
-            style={{ fontFamily: "var(--font-julius)" }}
+            className="flex flex-wrap items-center text-[10px] tracking-[0.2em] uppercase"
+            style={{ fontFamily: "var(--font-julius)", gap: "10px" }}
         >
             {items.map((item, i) => (
-                <span key={item.href} className="flex items-center gap-2">
+                <span key={item.href} className="flex items-center" style={{ gap: "10px" }}>
                     <Link
                         href={item.href}
                         className="underline underline-offset-4 transition-opacity duration-300 hover:opacity-60"

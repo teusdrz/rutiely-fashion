@@ -33,9 +33,9 @@ export default async function ProductPage({ params }: PageProps) {
         <div className="relative min-h-screen" style={{ background: "#FFF1FC" }}>
             <style>{`
                 @media (max-width: 767px) {
-                    .product-page-content { padding: 110px 5% 60px !important; }
-                    .product-page-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
-                    .product-page-sidebar { position: static !important; }
+                    .product-page-content { padding: 110px 6% 80px !important; }
+                    .product-page-grid { grid-template-columns: 1fr !important; gap: 48px !important; margin-top: 32px !important; }
+                    .product-page-sidebar { position: static !important; padding: 0 !important; }
                 }
             `}</style>
 
@@ -43,17 +43,18 @@ export default async function ProductPage({ params }: PageProps) {
 
             <main
                 className="relative product-page-content"
-                style={{ padding: "140px 5% 100px", maxWidth: "1440px", margin: "0 auto" }}
+                style={{ padding: "160px 6% 120px", maxWidth: "1440px", margin: "0 auto" }}
             >
                 <Breadcrumb category={product.category} title={product.title} />
 
                 <div
-                    className="product-page-grid mt-8"
+                    className="product-page-grid"
                     style={{
                         display: "grid",
-                        gridTemplateColumns: "minmax(0, 1.35fr) minmax(0, 1fr)",
-                        gap: "56px",
+                        gridTemplateColumns: "minmax(0, 1.3fr) minmax(0, 1fr)",
+                        gap: "80px",
                         alignItems: "start",
+                        marginTop: "48px",
                     }}
                 >
                     <section>
@@ -62,7 +63,7 @@ export default async function ProductPage({ params }: PageProps) {
 
                     <aside
                         className="product-page-sidebar"
-                        style={{ position: "sticky", top: "120px" }}
+                        style={{ position: "sticky", top: "140px", paddingLeft: "8px" }}
                     >
                         <ProductDetails product={product} />
                     </aside>

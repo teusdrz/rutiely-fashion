@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Cormorant, DM_Sans, Julius_Sans_One } from "next/font/google";
 import "./globals.css";
+import { CartProvider } from "@/lib/cart";
+import CartDrawer from "@/components/cart/CartDrawer";
 
 const cormorant = Cormorant({
   variable: "--font-cormorant",
@@ -38,7 +40,12 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${cormorant.variable} ${dmSans.variable} ${juliusSansOne.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <CartProvider>
+          {children}
+          <CartDrawer />
+        </CartProvider>
+      </body>
     </html>
   );
 }
