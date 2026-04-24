@@ -87,7 +87,7 @@ export const products: Product[] = [
         price: "R$ 59,90",
         priceValue: 59.9,
         images: [`${IMG_BASE}/Camiseta-SemModelos/BodyRegata.jpeg`],
-        category: "bodies",
+        category: "camisetas",
     },
     {
         id: 9,
@@ -96,7 +96,7 @@ export const products: Product[] = [
         price: "R$ 59,90",
         priceValue: 59.9,
         images: [`${IMG_BASE}/Camiseta-SemModelos/BodyMarrom.jpeg`],
-        category: "bodies",
+        category: "camisetas",
     },
     {
         id: 10,
@@ -105,7 +105,7 @@ export const products: Product[] = [
         price: "R$ 59,90",
         priceValue: 59.9,
         images: [`${IMG_BASE}/Camiseta-SemModelos/BodyBranco.jpeg`],
-        category: "bodies",
+        category: "camisetas",
     },
     {
         id: 11,
@@ -114,7 +114,7 @@ export const products: Product[] = [
         price: "R$ 59,90",
         priceValue: 59.9,
         images: [`${IMG_BASE}/Camiseta-SemModelos/BodyAzul.jpeg`],
-        category: "bodies",
+        category: "camisetas",
     },
     {
         id: 12,
@@ -123,7 +123,7 @@ export const products: Product[] = [
         price: "R$ 59,90",
         priceValue: 59.9,
         images: [`${IMG_BASE}/Camiseta-SemModelos/BodyMarromAberto.jpeg`],
-        category: "bodies",
+        category: "camisetas",
     },
     {
         id: 13,
@@ -141,7 +141,7 @@ export const products: Product[] = [
         price: "R$ 59,90",
         priceValue: 59.9,
         images: [`${IMG_BASE}/Camiseta-SemModelos/BodyMangaLonga.jpeg`],
-        category: "bodies",
+        category: "camisetas",
     },
     {
         id: 15,

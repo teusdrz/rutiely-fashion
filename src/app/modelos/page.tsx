@@ -85,6 +85,14 @@ function ModelosContent() {
                     .modelos-nav-logo img { width: 36px !important; height: 36px !important; }
                     .modelos-content { padding: 120px 5% 60px !important; }
                 }
+                @media (max-width: 639px) {
+                    .modelos-grid { gap: 14px !important; }
+                    .modelos-grid .modelos-card-title { font-size: 10px !important; letter-spacing: 0.08em !important; }
+                    .modelos-grid .modelos-card-subtitle { font-size: 8px !important; letter-spacing: 0.06em !important; margin-top: 3px !important; }
+                    .modelos-grid .modelos-card-price { font-size: 11px !important; margin-top: 8px !important; }
+                    .modelos-grid .modelos-card-info { padding-top: 10px !important; }
+                    .modelos-grid .modelos-card-sparkle { width: 20px !important; height: 20px !important; bottom: 8px !important; right: 8px !important; }
+                }
             `}</style>
 
             <ModelosNavbar />
@@ -146,7 +154,7 @@ function ModelosContent() {
 
                 <div
                     ref={gridRef}
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+                    className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 modelos-grid"
                 >
                     {filteredProducts.map((product, index) => (
                         <Link
@@ -166,11 +174,11 @@ function ModelosContent() {
                                     alt={product.title}
                                     fill
                                     className="object-cover"
-                                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
                                 />
 
                                 <div
-                                    className="absolute pointer-events-none"
+                                    className="absolute pointer-events-none modelos-card-sparkle"
                                     style={{ bottom: "14px", right: "14px" }}
                                 >
                                     <svg
@@ -188,9 +196,9 @@ function ModelosContent() {
                                 </div>
                             </div>
 
-                            <div style={{ paddingTop: "16px" }}>
+                            <div className="modelos-card-info" style={{ paddingTop: "16px" }}>
                                 <h3
-                                    className="text-[11px] font-normal tracking-[0.1em] uppercase leading-[1.6]"
+                                    className="modelos-card-title text-[11px] font-normal tracking-[0.1em] uppercase leading-[1.6]"
                                     style={{
                                         color: "var(--rose-900)",
                                         fontFamily: "var(--font-julius)",
@@ -200,7 +208,7 @@ function ModelosContent() {
                                 </h3>
 
                                 <p
-                                    className="text-[9px] font-normal tracking-[0.08em] uppercase"
+                                    className="modelos-card-subtitle text-[9px] font-normal tracking-[0.08em] uppercase"
                                     style={{
                                         color: "var(--rose-700)",
                                         fontFamily: "var(--font-julius)",
@@ -211,7 +219,7 @@ function ModelosContent() {
                                 </p>
 
                                 <span
-                                    className="block text-[12px] font-normal tracking-[0.05em]"
+                                    className="modelos-card-price block text-[12px] font-normal tracking-[0.05em]"
                                     style={{
                                         color: "var(--rose-900)",
                                         fontFamily: "var(--font-julius)",

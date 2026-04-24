@@ -79,21 +79,7 @@ export default function ModelosNavbar() {
                 ))}
             </ul>
 
-            <div ref={actionsRef} className="flex items-center" style={{ gap: "20px" }}>
-                <Link
-                    href="/#orcamento"
-                    className="group relative font-body text-xs font-medium tracking-[0.2em] uppercase border overflow-hidden border-[var(--rose-800)]"
-                    style={{ padding: "14px 40px" }}
-                >
-                    <span
-                        className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
-                        style={{ background: "var(--rose-800)" }}
-                    />
-                    <span className="relative z-10 text-[#4A3238] group-hover:text-[#FFF1FC] transition-colors duration-500">
-                        Orçamento
-                    </span>
-                </Link>
-
+            <div ref={actionsRef} className="flex items-center">
                 <CartIcon />
             </div>
         </nav>
