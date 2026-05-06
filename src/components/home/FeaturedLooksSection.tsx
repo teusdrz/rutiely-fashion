@@ -61,7 +61,7 @@ export default function FeaturedLooksSection() {
         <section
             ref={sectionRef}
             className="w-full flex flex-col md:flex-row"
-            style={{ minHeight: "80vh" }}
+            style={{ minHeight: "80vh", marginTop: "80px" }}
         >
             {looks.map((look, i) => (
                 <div

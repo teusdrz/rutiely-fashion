@@ -5,6 +5,7 @@ import LoadingScreen from "@/components/loading/LoadingScreen";
 import Navbar from "@/components/home/Navbar";
 import HeroSection from "@/components/home/HeroSection";
 import FeaturedLooksSection from "@/components/home/FeaturedLooksSection";
+import MarqueeBanner from "@/components/home/MarqueeBanner";
 import AboutSection from "@/components/home/AboutSection";
 import CategoriesSection from "@/components/home/CategoriesSection";
 import ContactSection from "@/components/home/ContactSection";
@@ -22,6 +23,7 @@ export default function Home() {
       <LoadingScreen onComplete={handleLoadingComplete} />
       <Navbar isVisible={loadingComplete} />
       <HeroSection isVisible={loadingComplete} />
+      <MarqueeBanner />
       <FeaturedLooksSection />
       <AboutSection />
       <CategoriesSection />
