@@ -9,6 +9,7 @@ import MarqueeBanner from "@/components/home/MarqueeBanner";
 import AboutSection from "@/components/home/AboutSection";
 import CategoriesSection from "@/components/home/CategoriesSection";
 import ContactSection from "@/components/home/ContactSection";
+import ImageInfSection from "@/components/home/ImageInfSection";
 import Footer from "@/components/home/Footer";
 
 export default function Home() {
@@ -27,6 +28,7 @@ export default function Home() {
       <FeaturedLooksSection />
       <AboutSection />
       <CategoriesSection />
+      <ImageInfSection />
       <ContactSection />
       <Footer />
     </main>
