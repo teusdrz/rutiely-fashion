@@ -21,8 +21,8 @@ const looks = [
         label: "Vestidos",
         sub: "confira",
         href: "/modelos",
-        src: "/images/camisetas/modelo-camisetas/camiseta-branca/WhatsApp Image 2026-04-24 at 15.12.11.jpeg",
-        alt: "Modelo usando blusa branca Rutiely",
+        src: "/images/vestidos/modelos-vestidos/Vestido-Preto/WhatsApp Image 2026-05-06 at 17.40.55.jpeg",
+        alt: "Modelo usando vestido preto Rutiely",
     },
     {
         label: "Conjuntos",
