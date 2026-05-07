@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { products } from "@/data/products";
-import ModelosNavbar from "@/components/modelos/ModelosNavbar";
+import Navbar from "@/components/home/Navbar";
 import Breadcrumb from "@/components/modelos/product/Breadcrumb";
 import ProductGallery from "@/components/modelos/product/ProductGallery";
 import ProductDetails from "@/components/modelos/product/ProductDetails";
@@ -39,7 +39,7 @@ export default async function ProductPage({ params }: PageProps) {
                 }
             `}</style>
 
-            <ModelosNavbar />
+            <Navbar />
 
             <main
                 className="relative product-page-content"

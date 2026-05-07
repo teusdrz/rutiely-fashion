@@ -6,7 +6,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
-import ModelosNavbar from "@/components/modelos/ModelosNavbar";
+import Navbar from "@/components/home/Navbar";
 import ProductSection from "@/components/modelos/ProductSection";
 import { categoryGroups } from "@/data/products";
 
@@ -109,7 +109,7 @@ function ModelosContent() {
                 }
             `}</style>
 
-            <ModelosNavbar />
+            <Navbar />
 
             <div
                 ref={lineImageRef}

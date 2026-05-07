@@ -16,9 +16,11 @@ interface NavbarProps {
 const NAV_LINKS = [
     { label: "Início", href: "/" },
     { label: "Sobre", href: "/#sobre" },
+    { label: "Modelos", href: "/modelos" },
+    { label: "Compras", href: "/checkout" },
 ];
 
-export default function Navbar({ isVisible }: NavbarProps) {
+export default function Navbar({ isVisible = true }: NavbarProps) {
     const pillRef = useRef<HTMLDivElement>(null);
     const logoRef = useRef<HTMLDivElement>(null);
     const linksRef = useRef<HTMLUListElement>(null);

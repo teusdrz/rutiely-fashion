@@ -185,23 +185,10 @@ function CategoryCard({ item, cardRef }: CardProps) {
 // ─── Componente principal ─────────────────────────────────────────────────────
 export default function CategoriesSection() {
     const sectionRef = useRef<HTMLElement>(null);
-    const headingRef = useRef<HTMLHeadingElement>(null);
     const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     useGSAP(
         () => {
-            gsap.from(headingRef.current, {
-                autoAlpha: 0,
-                y: 50,
-                duration: 0.9,
-                ease: "power3.out",
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top 72%",
-                    toggleActions: "play none none none",
-                },
-            });
-
             gsap.from(
                 cardRefs.current.filter(Boolean),
                 {
@@ -237,22 +224,6 @@ export default function CategoriesSection() {
                     margin: "0 auto",
                 }}
             >
-                {/* Cabeçalho da seção */}
-                <h2
-                    ref={headingRef}
-                    style={{
-                        fontFamily: "var(--font-julius)",
-                        fontSize: "clamp(1.6rem, 3vw, 3rem)",
-                        fontWeight: 400,
-                        color: "#4a3238",
-                        letterSpacing: "0.04em",
-                        textTransform: "uppercase",
-                        marginBottom: "28px",
-                    }}
-                >
-                    Encontre sua essência
-                </h2>
-
                 {/* Bento grid: 2 colunas no desktop, 1 coluna no mobile */}
                 <div
                     className="grid grid-cols-2"
