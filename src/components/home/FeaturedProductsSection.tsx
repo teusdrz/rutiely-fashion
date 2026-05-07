@@ -33,7 +33,7 @@ export default function FeaturedProductsSection() {
         <section
             style={{
                 width: "100%",
-                padding: "0 24px 120px",
+                padding: "0 8px 120px",
                 boxSizing: "border-box",
             }}
         >

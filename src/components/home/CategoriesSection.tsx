@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useCallback } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -9,107 +9,215 @@ import Link from "next/link";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-const categories = [
-    { name: "Vestidos", number: "01" },
-    { name: "Camisetas", number: "02" },
-    { name: "Conjuntos", number: "03" },
-    { name: "Saias", number: "04" },
+// ─── Tipos ────────────────────────────────────────────────────────────────────
+type CardLayout = "half" | "full";
+
+interface CategoryItem {
+    id: string;
+    label: string;
+    subtitle: string;
+    description?: string;
+    cta: string;
+    href: string;
+    image: string;
+    layout: CardLayout;
+}
+
+// ─── Dados das categorias ─────────────────────────────────────────────────────
+const CATEGORIES: CategoryItem[] = [
+    {
+        id: "vestidos",
+        label: "Vestidos",
+        subtitle: "COLEÇÃO 2026",
+        cta: "VER COLEÇÃO",
+        href: "/modelos?categoria=vestidos",
+        image: "/images/vestidos/modelos-vestidos/Vestido-Preto/WhatsApp Image 2026-05-06 at 17.40.55.jpeg",
+        layout: "half",
+    },
+    {
+        id: "camisetas",
+        label: "Camisetas",
+        subtitle: "BASICS & STYLE",
+        cta: "VER COLEÇÃO",
+        href: "/modelos?categoria=camisetas",
+        image: "/images/camisetas/modelo-camisetas/camiseta-bege/WhatsApp Image 2026-04-24 at 15.12.25.jpeg",
+        layout: "half",
+    },
+    {
+        id: "conjuntos",
+        label: "Conjuntos",
+        subtitle: "COORDENADOS",
+        description: "Looks completos para todas as ocasiões.",
+        cta: "EXPLORAR",
+        href: "/modelos?categoria=conjuntos",
+        image: "/Conjuntos/ConjuntoBlazer.jpeg",
+        layout: "full",
+    },
+    {
+        id: "saias",
+        label: "Saias",
+        subtitle: "NOVAS PEÇAS",
+        cta: "VER COLEÇÃO",
+        href: "/modelos?categoria=saias",
+        image: "/images/vestidos/modelos-vestidos/Vestido-Branca/WhatsApp Image 2026-05-06 at 17.49.24.jpeg",
+        layout: "full",
+    },
 ];
 
+// ─── Sub-componente: CategoryCard ─────────────────────────────────────────────
+interface CardProps {
+    item: CategoryItem;
+    cardRef: (el: HTMLDivElement | null) => void;
+}
+
+function CategoryCard({ item, cardRef }: CardProps) {
+    const isHalf = item.layout === "half";
+
+    return (
+        <div
+            ref={cardRef}
+            className={isHalf ? "col-span-2 md:col-span-1" : "col-span-2"}
+            style={{
+                borderRadius: "16px",
+                height: isHalf ? "clamp(340px, 50vw, 520px)" : "clamp(300px, 35vw, 420px)",
+                overflow: "hidden",
+                position: "relative",
+            }}
+        >
+            <Link
+                href={item.href}
+                className="group block w-full h-full relative"
+                style={{ display: "block", width: "100%", height: "100%", position: "relative" }}
+            >
+                {/* Imagem de fundo */}
+                <Image
+                    src={item.image}
+                    alt={item.label}
+                    fill
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    sizes={isHalf ? "(max-width: 768px) 100vw, 50vw" : "100vw"}
+                />
+
+                {/* Overlay gradiente */}
+                <div
+                    className="absolute inset-0"
+                    style={{
+                        background:
+                            "linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.60) 100%)",
+                    }}
+                />
+
+                {/* Conteúdo centralizado */}
+                <div
+                    className="absolute inset-0 flex flex-col items-center justify-center text-center"
+                    style={{ padding: "40px 36px" }}
+                >
+                    <p
+                        style={{
+                            fontSize: "11px",
+                            letterSpacing: "0.18em",
+                            textTransform: "uppercase",
+                            color: "rgba(255,255,255,0.72)",
+                            marginBottom: "12px",
+                            fontFamily: "var(--font-body)",
+                            fontWeight: 400,
+                        }}
+                    >
+                        {item.subtitle}
+                    </p>
+
+                    <h3
+                        style={{
+                            fontSize: isHalf
+                                ? "clamp(2.8rem, 4.5vw, 4.8rem)"
+                                : "clamp(3rem, 5vw, 5.5rem)",
+                            fontFamily: "var(--font-display)",
+                            fontWeight: 400,
+                            color: "#ffffff",
+                            lineHeight: 1,
+                            letterSpacing: "0.02em",
+                            marginBottom: item.description ? "14px" : "32px",
+                            textTransform: "uppercase",
+                        }}
+                    >
+                        {item.label}
+                    </h3>
+
+                    {item.description && (
+                        <p
+                            style={{
+                                fontSize: "14px",
+                                color: "rgba(255,255,255,0.78)",
+                                fontFamily: "var(--font-body)",
+                                marginBottom: "32px",
+                                maxWidth: "420px",
+                                lineHeight: 1.6,
+                            }}
+                        >
+                            {item.description}
+                        </p>
+                    )}
+
+                    {/* Botão outline */}
+                    <span
+                        className="group-hover:bg-white/10"
+                        style={{
+                            display: "inline-block",
+                            border: "1px solid rgba(255,255,255,0.72)",
+                            color: "#ffffff",
+                            padding: "13px 34px",
+                            fontSize: "11px",
+                            letterSpacing: "0.14em",
+                            textTransform: "uppercase",
+                            fontFamily: "var(--font-body)",
+                            borderRadius: "2px",
+                            transition: "background 0.3s ease, border-color 0.3s ease",
+                        }}
+                    >
+                        {item.cta}
+                    </span>
+                </div>
+            </Link>
+        </div>
+    );
+}
+
+// ─── Componente principal ─────────────────────────────────────────────────────
 export default function CategoriesSection() {
     const sectionRef = useRef<HTMLElement>(null);
     const headingRef = useRef<HTMLHeadingElement>(null);
-    const itemsRef = useRef<HTMLDivElement>(null);
-    const butterflyRef = useRef<HTMLDivElement>(null);
     const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-    const nameRefs = useRef<(HTMLSpanElement | null)[]>([]);
-    const numberRefs = useRef<(HTMLSpanElement | null)[]>([]);
-
-    const handleEnter = useCallback((index: number) => {
-        const card = cardRefs.current[index];
-        const name = nameRefs.current[index];
-        const num = numberRefs.current[index];
-        if (!card) return;
-
-        gsap.to(card, {
-            y: -6,
-            borderRadius: "14px",
-            background: "rgba(255, 241, 252, 0.88)",
-            boxShadow: "0 10px 35px rgba(74, 50, 56, 0.14)",
-            duration: 0.6,
-            ease: "power3.out",
-        });
-        gsap.to(name, { color: "#4a3238", duration: 0.5, ease: "power2.out" });
-        gsap.to(num, { color: "#8c5f68", duration: 0.5, ease: "power2.out" });
-    }, []);
-
-    const handleLeave = useCallback((index: number) => {
-        const card = cardRefs.current[index];
-        const name = nameRefs.current[index];
-        const num = numberRefs.current[index];
-        if (!card) return;
-
-        gsap.to(card, {
-            y: 0,
-            borderRadius: "0px",
-            background: "rgba(255, 241, 252, 0)",
-            boxShadow: "0 0 0 rgba(74, 50, 56, 0)",
-            duration: 0.5,
-            ease: "power2.inOut",
-        });
-        gsap.to(name, { color: "#ffffff", duration: 0.4, ease: "power2.inOut" });
-        gsap.to(num, { color: "rgba(255, 255, 255, 0.6)", duration: 0.4, ease: "power2.inOut" });
-    }, []);
 
     useGSAP(
         () => {
-            const tl = gsap.timeline({
+            gsap.from(headingRef.current, {
+                autoAlpha: 0,
+                y: 50,
+                duration: 0.9,
+                ease: "power3.out",
                 scrollTrigger: {
                     trigger: sectionRef.current,
-                    start: "top 70%",
-                    end: "bottom 25%",
+                    start: "top 72%",
                     toggleActions: "play none none none",
                 },
-                defaults: { ease: "power3.out" },
             });
 
-            tl.from(headingRef.current, {
-                autoAlpha: 0,
-                y: 60,
-                duration: 0.9,
-            });
-
-            tl.from(
-                butterflyRef.current,
-                { autoAlpha: 0, rotate: -15, scale: 0.5, duration: 0.8 },
-                "-=0.5"
+            gsap.from(
+                cardRefs.current.filter(Boolean),
+                {
+                    autoAlpha: 0,
+                    y: 48,
+                    duration: 0.75,
+                    stagger: 0.14,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: "top 62%",
+                        toggleActions: "play none none none",
+                    },
+                }
             );
 
-            const items = itemsRef.current?.children;
-            if (items) {
-                tl.from(
-                    Array.from(items),
-                    {
-                        autoAlpha: 0,
-                        y: 40,
-                        duration: 0.6,
-                        stagger: 0.15,
-                    },
-                    "-=0.4"
-                );
-            }
-
-            gsap.to(butterflyRef.current, {
-                y: -30,
-                rotate: 6,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: 1.5,
-                },
-            });
         },
         { scope: sectionRef }
     );
@@ -117,70 +225,45 @@ export default function CategoriesSection() {
     return (
         <section
             ref={sectionRef}
-            className="relative w-full overflow-hidden"
             style={{
-                background: "linear-gradient(180deg, #BE9699 45%, #BC989A 73%, #584547 100%)",
+                background: "#FFF1FC",
                 padding: "100px 0 120px",
             }}
         >
-            <div className="relative" style={{ padding: "0 8%" }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: "60px" }}>
-                    <h2
-                        ref={headingRef}
-                        className="text-[1.75rem] md:text-5xl lg:text-[3.5rem] font-normal leading-[1.1] tracking-[0.02em] uppercase"
-                        style={{ color: "#fff", fontFamily: "var(--font-julius)" }}
-                    >
-                        Encontre sua essência
-                    </h2>
+            <div
+                style={{
+                    padding: "0 20px",
+                    maxWidth: "1440px",
+                    margin: "0 auto",
+                }}
+            >
+                {/* Cabeçalho da seção */}
+                <h2
+                    ref={headingRef}
+                    style={{
+                        fontFamily: "var(--font-julius)",
+                        fontSize: "clamp(1.6rem, 3vw, 3rem)",
+                        fontWeight: 400,
+                        color: "#4a3238",
+                        letterSpacing: "0.04em",
+                        textTransform: "uppercase",
+                        marginBottom: "28px",
+                    }}
+                >
+                    Encontre sua essência
+                </h2>
 
-                    <div ref={butterflyRef} className="hidden lg:block">
-                        <Image
-                            src="/images/Butterfly.png"
-                            alt=""
-                            width={150}
-                            height={150}
-                            className="object-contain"
+                {/* Bento grid: 2 colunas no desktop, 1 coluna no mobile */}
+                <div
+                    className="grid grid-cols-2"
+                    style={{ gap: "10px" }}
+                >
+                    {CATEGORIES.map((item, i) => (
+                        <CategoryCard
+                            key={item.id}
+                            item={item}
+                            cardRef={(el) => { cardRefs.current[i] = el; }}
                         />
-                    </div>
-                </div>
-
-                <div ref={itemsRef} className="flex flex-col">
-                    {categories.map((category, index) => (
-                        <Link
-                            key={category.number}
-                            href={`/modelos?categoria=${category.name.toLowerCase()}`}
-                            className="cursor-pointer block"
-                            style={{
-                                borderTop: "1px solid rgba(255, 255, 255, 0.25)",
-                                borderBottom: index === categories.length - 1
-                                    ? "1px solid rgba(255, 255, 255, 0.25)"
-                                    : "none",
-                                textDecoration: "none",
-                            }}
-                            onMouseEnter={() => handleEnter(index)}
-                            onMouseLeave={() => handleLeave(index)}
-                        >
-                            <div
-                                ref={(el) => { cardRefs.current[index] = el; }}
-                                className="flex items-center justify-between"
-                                style={{ padding: "28px 28px", margin: "4px 0" }}
-                            >
-                                <span
-                                    ref={(el) => { nameRefs.current[index] = el; }}
-                                    className="text-2xl md:text-3xl lg:text-[2rem] font-normal uppercase tracking-[0.04em]"
-                                    style={{ fontFamily: "var(--font-julius)", color: "#fff" }}
-                                >
-                                    {category.name}
-                                </span>
-                                <span
-                                    ref={(el) => { numberRefs.current[index] = el; }}
-                                    className="text-lg font-normal"
-                                    style={{ fontFamily: "var(--font-julius)", color: "rgba(255, 255, 255, 0.6)" }}
-                                >
-                                    {category.number}
-                                </span>
-                            </div>
-                        </Link>
                     ))}
                 </div>
             </div>
