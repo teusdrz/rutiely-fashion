@@ -10,6 +10,7 @@ import AboutSection from "@/components/home/AboutSection";
 import CategoriesSection from "@/components/home/CategoriesSection";
 import ContactSection from "@/components/home/ContactSection";
 import ImageInfSection from "@/components/home/ImageInfSection";
+import FeaturedProductsSection from "@/components/home/FeaturedProductsSection";
 import Footer from "@/components/home/Footer";
 
 export default function Home() {
@@ -29,6 +30,7 @@ export default function Home() {
       <AboutSection />
       <CategoriesSection />
       <ImageInfSection />
+      <FeaturedProductsSection />
       <ContactSection />
       <Footer />
     </main>
