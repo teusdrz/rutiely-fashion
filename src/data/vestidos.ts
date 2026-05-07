@@ -1,6 +1,7 @@
 import type { Product } from "./types";
 
 const BASE = "/images/vestidos/modelos-vestidos";
+const OFFER = "FRETE GRÁTIS ACIMA DE R$ 150";
 
 export const vestidos: Product[] = [
     {
@@ -16,6 +17,8 @@ export const vestidos: Product[] = [
             `${BASE}/Vestido-Branca/WhatsApp%20Image%202026-05-06%20at%2017.49.25%20(2).jpeg`,
         ],
         category: "vestidos",
+        colors: [{ name: "Branco", hex: "#f0ede8" }],
+        offer: OFFER,
     },
     {
         id: 202,
@@ -29,6 +32,8 @@ export const vestidos: Product[] = [
             `${BASE}/Vestido-Branca2/WhatsApp%20Image%202026-05-06%20at%2017.51.03%20(2).jpeg`,
         ],
         category: "vestidos",
+        colors: [{ name: "Off-White", hex: "#e8e0d4" }],
+        offer: OFFER,
     },
     {
         id: 203,
@@ -43,6 +48,8 @@ export const vestidos: Product[] = [
             `${BASE}/%20Vestido-Marrom/WhatsApp%20Image%202026-05-06%20at%2017.51.01.jpeg`,
         ],
         category: "vestidos",
+        colors: [{ name: "Marrom", hex: "#7a5c3e" }],
+        offer: OFFER,
     },
     {
         id: 204,
@@ -56,6 +63,8 @@ export const vestidos: Product[] = [
             `${BASE}/Vestido-Preto/WhatsApp%20Image%202026-05-06%20at%2017.40.56.jpeg`,
         ],
         category: "vestidos",
+        colors: [{ name: "Preto", hex: "#2a2a2a" }],
+        offer: OFFER,
     },
     {
         id: 205,
@@ -69,6 +78,8 @@ export const vestidos: Product[] = [
             `${BASE}/Vestido-Preto2/WhatsApp%20Image%202026-05-06%20at%2017.51.04%20(2).jpeg`,
         ],
         category: "vestidos",
+        colors: [{ name: "Preto", hex: "#2a2a2a" }],
+        offer: OFFER,
     },
     {
         id: 206,
@@ -80,5 +91,7 @@ export const vestidos: Product[] = [
             `${BASE}/Vestido-roxo/WhatsApp%20Image%202026-05-06%20at%2017.40.56%20(1).jpeg`,
         ],
         category: "vestidos",
+        colors: [{ name: "Roxo", hex: "#7b4f8e" }],
+        offer: OFFER,
     },
 ];

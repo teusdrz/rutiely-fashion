@@ -87,13 +87,28 @@ export default function Navbar({ isVisible = true }: NavbarProps) {
 
     return (
         <>
+            <style>{`
+                .nav-pill {
+                    width: clamp(320px, 72vw, 860px);
+                    gap: 32px;
+                    padding: 10px 20px 10px 16px;
+                }
+                @media (max-width: 767px) {
+                    .nav-pill {
+                        width: calc(100vw - 32px);
+                        gap: 0;
+                        padding: 10px 14px 10px 14px;
+                    }
+                }
+            `}</style>
+
             <nav
                 className="fixed top-0 left-0 right-0 z-40 flex justify-center"
                 style={{ paddingTop: "20px", pointerEvents: "none" }}
             >
                 <div
                     ref={pillRef}
-                    className="flex items-center justify-between"
+                    className="nav-pill flex items-center justify-between"
                     style={{
                         pointerEvents: "auto",
                         background: "rgba(255,255,255,0.97)",
@@ -101,10 +116,7 @@ export default function Navbar({ isVisible = true }: NavbarProps) {
                         WebkitBackdropFilter: "blur(16px)",
                         borderRadius: "100px",
                         boxShadow: "0 4px 28px rgba(74,50,56,0.13), 0 1px 4px rgba(74,50,56,0.07)",
-                        padding: "10px 20px 10px 16px",
-                        gap: "32px",
                         visibility: "hidden",
-                        width: "clamp(320px, 72vw, 860px)",
                     }}
                 >
                     <div ref={logoRef} style={{ visibility: "hidden" }}>
@@ -117,6 +129,7 @@ export default function Navbar({ isVisible = true }: NavbarProps) {
                                 className="object-contain"
                             />
                             <span
+                                className="hidden md:inline"
                                 style={{
                                     fontFamily: "var(--font-cormorant, var(--font-display))",
                                     fontWeight: 600,
@@ -189,9 +202,9 @@ export default function Navbar({ isVisible = true }: NavbarProps) {
                     <div
                         ref={actionsRef}
                         className="flex items-center shrink-0 relative"
-                        style={{ gap: "8px", visibility: "hidden" }}
+                        style={{ gap: "4px", visibility: "hidden" }}
                     >
-                        <div className="flex items-center gap-1.5">
+                        <div className="hidden md:flex items-center gap-1.5">
                             <button
                                 onClick={toggleSearch}
                                 aria-label="Buscar"
@@ -289,6 +302,30 @@ export default function Navbar({ isVisible = true }: NavbarProps) {
                 </div>
 
                 <div className="mx-6 h-px" style={{ background: "linear-gradient(90deg, transparent, var(--rose-200), transparent)" }} />
+
+                <div className="mx-6 mt-5">
+                    <div className="flex items-center gap-3 px-4 py-3 rounded-full" style={{ background: "rgba(107,74,82,0.06)" }}>
+                        <svg width="15" height="15" viewBox="0 0 17 17" fill="none" stroke="var(--rose-500)" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="7.5" cy="7.5" r="5" />
+                            <line x1="11.5" y1="11.5" x2="15" y2="15" />
+                        </svg>
+                        <input
+                            type="search"
+                            placeholder="Buscar produtos..."
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    const query = (e.target as HTMLInputElement).value.trim();
+                                    if (query) {
+                                        router.push(`/modelos?busca=${encodeURIComponent(query)}`);
+                                        closeMobile();
+                                    }
+                                }
+                            }}
+                            className="flex-1 bg-transparent outline-none text-[13px] tracking-[0.06em]"
+                            style={{ color: "var(--rose-800)", fontFamily: "var(--font-body)" }}
+                        />
+                    </div>
+                </div>
 
                 <ul className="flex-1 flex flex-col items-center justify-center gap-2" style={{ listStyle: "none" }}>
                     {NAV_LINKS.map((item) => (

@@ -1,6 +1,7 @@
 import type { Product } from "./types";
 
 const BASE = "/images/camisetas/modelo-camisetas";
+const OFFER = "FRETE GRÁTIS ACIMA DE R$ 150";
 
 export const camisetas: Product[] = [
     {
@@ -14,6 +15,8 @@ export const camisetas: Product[] = [
             `${BASE}/camiseta-basica-branca/camiseta-branca-costa.png`,
         ],
         category: "camisetas",
+        colors: [{ name: "Branca", hex: "#f5f5f0" }],
+        offer: OFFER,
     },
     {
         id: 2,
@@ -26,6 +29,8 @@ export const camisetas: Product[] = [
             `${BASE}/camiseta-basica-preta/camiseta-preta-costa.png`,
         ],
         category: "camisetas",
+        colors: [{ name: "Preta", hex: "#2a2a2a" }],
+        offer: OFFER,
     },
     {
         id: 3,
@@ -38,6 +43,11 @@ export const camisetas: Product[] = [
             `${BASE}/camiseta-basica-listrada/camiseta-listrada-costa.png`,
         ],
         category: "camisetas",
+        colors: [
+            { name: "Branca", hex: "#f5f5f0" },
+            { name: "Azul", hex: "#4a6d8c" },
+        ],
+        offer: OFFER,
     },
     {
         id: 4,
@@ -50,6 +60,8 @@ export const camisetas: Product[] = [
             `${BASE}/camiseta-basica-verde/camiseta-verde-costa.png`,
         ],
         category: "camisetas",
+        colors: [{ name: "Verde", hex: "#6b9c6a" }],
+        offer: OFFER,
     },
     {
         id: 5,
@@ -64,6 +76,8 @@ export const camisetas: Product[] = [
             `${BASE}/camiseta-bege/WhatsApp%20Image%202026-04-24%20at%2015.12.26%20(2).jpeg`,
         ],
         category: "camisetas",
+        colors: [{ name: "Bege", hex: "#c8b49a" }],
+        offer: OFFER,
     },
     {
         id: 6,
@@ -79,6 +93,8 @@ export const camisetas: Product[] = [
             `${BASE}/camiseta-branca/WhatsApp%20Image%202026-04-24%20at%2015.12.11%20(4).jpeg`,
         ],
         category: "camisetas",
+        colors: [{ name: "Branca", hex: "#f5f5f0" }],
+        offer: OFFER,
     },
     {
         id: 7,
@@ -92,6 +108,8 @@ export const camisetas: Product[] = [
             `${BASE}/camiseta-marrom/WhatsApp%20Image%202026-04-24%20at%2015.12.56.jpeg`,
         ],
         category: "camisetas",
+        colors: [{ name: "Marrom", hex: "#7a5c3e" }],
+        offer: OFFER,
     },
     {
         id: 8,
@@ -107,5 +125,7 @@ export const camisetas: Product[] = [
             `${BASE}/camisetas-cinza/WhatsApp%20Image%202026-04-24%20at%2015.13.17%20(1).jpeg`,
         ],
         category: "camisetas",
+        colors: [{ name: "Cinza", hex: "#9a9a9a" }],
+        offer: OFFER,
     },
 ];

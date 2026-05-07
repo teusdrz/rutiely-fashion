@@ -113,7 +113,7 @@ function ModelosContent() {
                 @media (max-width: 639px) {
                     .modelos-grid { gap: 14px !important; }
                     .modelos-grid .modelos-card-title { font-size: 10px !important; letter-spacing: 0.08em !important; }
-                    .modelos-grid .modelos-card-subtitle { font-size: 8px !important; letter-spacing: 0.06em !important; margin-top: 3px !important; }
+                    .modelos-grid .modelos-card-offer { font-size: 9px !important; letter-spacing: 0.05em !important; margin-top: 3px !important; }
                     .modelos-grid .modelos-card-price { font-size: 11px !important; margin-top: 8px !important; }
                     .modelos-grid .modelos-card-info { padding-top: 10px !important; }
                     .modelos-grid .modelos-card-sparkle { width: 20px !important; height: 20px !important; bottom: 8px !important; right: 8px !important; }
