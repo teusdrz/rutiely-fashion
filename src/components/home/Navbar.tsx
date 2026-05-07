@@ -16,8 +16,7 @@ interface NavbarProps {
 const NAV_LINKS = [
     { label: "Início", href: "/" },
     { label: "Sobre", href: "/#sobre" },
-    { label: "Modelos", href: "/modelos" },
-    { label: "Compras", href: "/checkout" },
+    { label: "Comprar", href: "/modelos" },
 ];
 
 export default function Navbar({ isVisible = true }: NavbarProps) {
@@ -68,9 +67,9 @@ export default function Navbar({ isVisible = true }: NavbarProps) {
     useGSAP(() => {
         if (!searchWrapRef.current) return;
         gsap.to(searchWrapRef.current, {
-            width: searchOpen ? 180 : 0,
+            width: searchOpen ? 280 : 0,
             opacity: searchOpen ? 1 : 0,
-            duration: 0.4,
+            duration: 0.35,
             ease: "power3.inOut",
         });
     }, [searchOpen]);
@@ -122,53 +121,63 @@ export default function Navbar({ isVisible = true }: NavbarProps) {
                         </Link>
                     </div>
 
-                    <ul
-                        ref={linksRef}
-                        className="hidden md:flex items-center flex-1 justify-center"
-                        style={{ gap: "36px", listStyle: "none" }}
-                    >
-                        {NAV_LINKS.map((item) => (
-                            <li key={item.label}>
-                                <Link
-                                    href={item.href}
-                                    className="relative group font-body text-[13px] font-semibold tracking-[0.16em] uppercase transition-colors duration-300"
-                                    style={{ color: "var(--rose-700)" }}
-                                >
-                                    {item.label}
-                                    <span
-                                        className="absolute -bottom-0.5 left-0 h-[1.5px] w-0 group-hover:w-full transition-all duration-300"
-                                        style={{ background: "var(--rose-500)" }}
-                                    />
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
+                    {/* Center area: links or search input */}
+                    <div className="hidden md:flex items-center flex-1 justify-center">
+                        <ul
+                            ref={linksRef}
+                            className="flex items-center transition-all duration-300"
+                            style={{
+                                gap: "36px",
+                                listStyle: "none",
+                                opacity: searchOpen ? 0 : 1,
+                                pointerEvents: searchOpen ? "none" : "auto",
+                                transitionProperty: "opacity",
+                            }}
+                        >
+                            {NAV_LINKS.map((item) => (
+                                <li key={item.label}>
+                                    <Link
+                                        href={item.href}
+                                        className="relative group font-body text-[13px] font-semibold tracking-[0.16em] uppercase transition-colors duration-300"
+                                        style={{ color: "var(--rose-700)" }}
+                                    >
+                                        {item.label}
+                                        <span
+                                            className="absolute -bottom-0.5 left-0 h-[1.5px] w-0 group-hover:w-full transition-all duration-300"
+                                            style={{ background: "var(--rose-500)" }}
+                                        />
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+
+                        {/* Search input — appears in center replacing links */}
+                        <div
+                            ref={searchWrapRef}
+                            className="absolute overflow-hidden"
+                            style={{ width: 0, opacity: 0, maxWidth: "320px" }}
+                        >
+                            <input
+                                ref={searchInputRef}
+                                type="search"
+                                placeholder="Buscar..."
+                                onKeyDown={(e) => e.key === "Escape" && setSearchOpen(false)}
+                                className="w-full bg-transparent outline-none font-body text-[13px] tracking-[0.08em]"
+                                style={{
+                                    color: "var(--rose-800)",
+                                    borderBottom: "1px solid var(--rose-300)",
+                                    paddingBottom: "2px",
+                                }}
+                            />
+                        </div>
+                    </div>
 
                     <div
                         ref={actionsRef}
-                        className="flex items-center shrink-0"
+                        className="flex items-center shrink-0 relative"
                         style={{ gap: "8px", visibility: "hidden" }}
                     >
                         <div className="flex items-center gap-1.5">
-                            <div
-                                ref={searchWrapRef}
-                                className="overflow-hidden"
-                                style={{ width: 0, opacity: 0 }}
-                            >
-                                <input
-                                    ref={searchInputRef}
-                                    type="search"
-                                    placeholder="Buscar..."
-                                    onKeyDown={(e) => e.key === "Escape" && setSearchOpen(false)}
-                                    className="w-full bg-transparent outline-none font-body text-[12px] tracking-[0.08em]"
-                                    style={{
-                                        color: "var(--rose-800)",
-                                        borderBottom: "1px solid var(--rose-300)",
-                                        paddingBottom: "2px",
-                                    }}
-                                />
-                            </div>
-
                             <button
                                 onClick={toggleSearch}
                                 aria-label="Buscar"

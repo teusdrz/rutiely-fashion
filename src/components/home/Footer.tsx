@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -9,22 +9,128 @@ import Link from "next/link";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-const footerLinks = ["Início", "Sobre", "Contato", "Modelos"];
+// ─── Data ──────────────────────────────────────────────────────────────────────
+
+const ABOUT_LINKS = [
+    { label: "Nossa História", href: "/#sobre" },
+    { label: "Contato", href: "/#contato" },
+    { label: "Blog", href: "/blog" },
+];
+
+const LEGAL_LINKS = [
+    { label: "FAQ", href: "/faq" },
+    { label: "Termos de Uso", href: "/termos" },
+    { label: "Cuidados", href: "/cuidados" },
+    { label: "Privacidade", href: "/privacidade" },
+];
+
+const SOCIAL_LINKS = [
+    { label: "Instagram", href: "https://instagram.com" },
+    { label: "Facebook", href: "https://facebook.com" },
+    { label: "TikTok", href: "https://tiktok.com" },
+];
+
+// ─── Sub-components ────────────────────────────────────────────────────────────
+
+interface FooterColumnProps {
+    title: string;
+    links: { label: string; href: string }[];
+}
+
+function FooterColumn({ title, links }: FooterColumnProps) {
+    return (
+        <div className="flex flex-col gap-5">
+            <span
+                className="text-[10px] font-semibold tracking-[0.22em] uppercase"
+                style={{ color: "var(--rose-900)", fontFamily: "var(--font-body)" }}
+            >
+                {title}
+            </span>
+            <ul className="flex flex-col gap-3">
+                {links.map(({ label, href }) => (
+                    <li key={label}>
+                        <Link
+                            href={href}
+                            className="text-[13px] font-normal leading-snug transition-opacity duration-200 hover:opacity-50"
+                            style={{ color: "var(--rose-800)", fontFamily: "var(--font-body)" }}
+                        >
+                            {label}
+                        </Link>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+}
+
+function NewsletterColumn() {
+    const [email, setEmail] = useState("");
+
+    return (
+        <div className="flex flex-col gap-5 max-w-xs">
+            <span
+                className="text-[10px] font-semibold tracking-[0.22em] uppercase"
+                style={{ color: "var(--rose-900)", fontFamily: "var(--font-body)" }}
+            >
+                Vamos Conectar
+            </span>
+
+            <p
+                className="text-[13px] font-normal leading-relaxed"
+                style={{ color: "var(--rose-700)", fontFamily: "var(--font-body)" }}
+            >
+                Assine nossa newsletter e ganhe{" "}
+                <strong className="font-semibold">10% de desconto</strong> no
+                primeiro pedido.
+            </p>
+
+            <div className="flex flex-col gap-1">
+                <div
+                    className="flex items-center justify-between pb-2"
+                    style={{ borderBottom: "1px solid var(--rose-400)" }}
+                >
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Seu e-mail"
+                        aria-label="Endereço de e-mail para newsletter"
+                        className="flex-1 bg-transparent outline-none text-[13px] placeholder:opacity-50"
+                        style={{
+                            color: "var(--rose-900)",
+                            fontFamily: "var(--font-body)",
+                        }}
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setEmail("")}
+                        className="ml-4 text-[10px] font-semibold tracking-[0.18em] uppercase transition-opacity duration-200 hover:opacity-50 cursor-pointer"
+                        style={{ color: "var(--rose-900)", fontFamily: "var(--font-body)" }}
+                    >
+                        Assinar
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+// ─── Main Component ────────────────────────────────────────────────────────────
 
 export default function Footer() {
     const footerRef = useRef<HTMLElement>(null);
-    const contentRef = useRef<HTMLDivElement>(null);
+    const innerRef = useRef<HTMLDivElement>(null);
 
     useGSAP(
         () => {
-            gsap.from(contentRef.current, {
+            gsap.from(innerRef.current, {
                 autoAlpha: 0,
-                y: 30,
-                duration: 0.8,
+                y: 24,
+                duration: 0.9,
                 ease: "power3.out",
                 scrollTrigger: {
                     trigger: footerRef.current,
-                    start: "top 85%",
+                    start: "top 88%",
                     toggleActions: "play none none none",
                 },
             });
@@ -32,103 +138,52 @@ export default function Footer() {
         { scope: footerRef }
     );
 
-    const scrollToTop = () => {
-        gsap.to(window, { scrollTo: 0, duration: 1.2, ease: "power3.inOut" });
-    };
-
     return (
         <footer
             ref={footerRef}
             className="relative w-full"
-            style={{ background: "#FFF1FC", padding: "60px 0 40px" }}
+            style={{ background: "#f5e8f0" }}
         >
-            <div
-                ref={contentRef}
-                className="flex items-center justify-between"
-                style={{ padding: "0 8%" }}
-            >
-                <div className="flex items-center gap-4">
+            <div ref={innerRef} style={{ padding: "64px 8% 0" }}>
+
+                {/* Logo */}
+                <div className="mb-12">
                     <Image
                         src="/images/Butterfly.png"
                         alt="Rutiely Fashion"
-                        width={48}
-                        height={48}
+                        width={52}
+                        height={52}
                         className="object-contain"
                     />
-                    <div className="flex flex-col leading-tight">
-                        <span
-                            className="text-base font-normal tracking-[0.25em] uppercase"
-                            style={{ color: "var(--rose-800)", fontFamily: "var(--font-julius)" }}
-                        >
-                            Rutiely Fashion
-                        </span>
-                        <span
-                            className="text-[9px] font-normal tracking-[0.25em] uppercase"
-                            style={{ color: "var(--rose-500)", fontFamily: "var(--font-julius)" }}
-                        >
-                            Moda Feminina
-                        </span>
-                    </div>
                 </div>
 
-                <ul className="hidden md:flex items-center gap-10">
-                    {footerLinks.map((item) => (
-                        <li key={item}>
-                            <Link
-                                href={`#${item.toLowerCase()}`}
-                                className="text-[11px] font-normal tracking-[0.18em] uppercase transition-opacity duration-300 hover:opacity-60"
-                                style={{
-                                    color: "var(--rose-700)",
-                                    fontFamily: "var(--font-julius)",
-                                }}
-                            >
-                                {item}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-
-                <button
-                    onClick={scrollToTop}
-                    className="flex items-center justify-center cursor-pointer transition-opacity duration-300 hover:opacity-60"
-                    style={{
-                        width: "44px",
-                        height: "44px",
-                        border: "1px solid var(--rose-400)",
-                        background: "transparent",
-                    }}
-                    aria-label="Voltar ao topo"
+                {/* 4-column grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 pb-16"
+                    style={{ borderBottom: "1px solid var(--rose-300)" }}
                 >
-                    <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="var(--rose-700)"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
+                    {/* Col 1 — Newsletter */}
+                    <NewsletterColumn />
+
+                    {/* Col 2 — Sobre */}
+                    <FooterColumn title="Sobre" links={ABOUT_LINKS} />
+
+                    {/* Col 3 — Legal */}
+                    <FooterColumn title="Legal" links={LEGAL_LINKS} />
+
+                    {/* Col 4 — Redes Sociais */}
+                    <FooterColumn title="Redes Sociais" links={SOCIAL_LINKS} />
+                </div>
+
+                {/* Bottom strip — copyright */}
+                <div className="flex items-center py-6">
+                    <span
+                        className="text-[11px] font-normal tracking-[0.08em]"
+                        style={{ color: "var(--rose-500)", fontFamily: "var(--font-body)" }}
                     >
-                        <path d="M12 19V5M5 12l7-7 7 7" />
-                    </svg>
-                </button>
-            </div>
+                        © 2026 Rutiely Fashion – Moda Feminina
+                    </span>
+                </div>
 
-            <div
-                className="flex items-center justify-center"
-                style={{
-                    marginTop: "40px",
-                    padding: "0 8%",
-                    borderTop: "1px solid var(--rose-200)",
-                    paddingTop: "20px",
-                }}
-            >
-                <span
-                    className="text-[10px] font-normal tracking-[0.1em] uppercase"
-                    style={{ color: "var(--rose-400)", fontFamily: "var(--font-julius)" }}
-                >
-                    © 2025 Rutiely Fashion. Todos os direitos reservados.
-                </span>
             </div>
         </footer>
     );
