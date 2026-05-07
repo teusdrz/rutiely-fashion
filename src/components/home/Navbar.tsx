@@ -11,7 +11,7 @@ import CartIcon from "@/components/cart/CartIcon";
 gsap.registerPlugin(useGSAP);
 
 interface NavbarProps {
-    isVisible: boolean;
+    isVisible?: boolean;
 }
 
 const NAV_LINKS = [
