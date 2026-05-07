@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useCallback, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Link from "next/link";
@@ -27,6 +28,7 @@ export default function Navbar({ isVisible = true }: NavbarProps) {
     const searchInputRef = useRef<HTMLInputElement>(null);
     const searchWrapRef = useRef<HTMLDivElement>(null);
 
+    const router = useRouter();
     const [searchOpen, setSearchOpen] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -36,6 +38,15 @@ export default function Navbar({ isVisible = true }: NavbarProps) {
             return !v;
         });
     }, []);
+
+    const handleSearchSubmit = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key !== "Enter") return;
+        const query = (e.target as HTMLInputElement).value.trim();
+        if (!query) return;
+        router.push(`/modelos?busca=${encodeURIComponent(query)}`);
+        setSearchOpen(false);
+        if (searchInputRef.current) searchInputRef.current.value = "";
+    }, [router]);
 
     const toggleMobile = useCallback(() => setMobileOpen((v) => !v), []);
     const closeMobile = useCallback(() => setMobileOpen(false), []);
@@ -161,7 +172,10 @@ export default function Navbar({ isVisible = true }: NavbarProps) {
                                 ref={searchInputRef}
                                 type="search"
                                 placeholder="Buscar..."
-                                onKeyDown={(e) => e.key === "Escape" && setSearchOpen(false)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Escape") setSearchOpen(false);
+                                    else handleSearchSubmit(e);
+                                }}
                                 className="w-full bg-transparent outline-none font-body text-[13px] tracking-[0.08em]"
                                 style={{
                                     color: "var(--rose-800)",

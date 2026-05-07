@@ -8,13 +8,14 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Navbar from "@/components/home/Navbar";
 import ProductSection from "@/components/modelos/ProductSection";
-import { categoryGroups } from "@/data/products";
+import { categoryGroups, products } from "@/data/products";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 function ModelosContent() {
     const searchParams = useSearchParams();
     const categoriaParam = searchParams.get("categoria");
+    const buscaParam = searchParams.get("busca");
 
     const pageRef = useRef<HTMLDivElement>(null);
     const lineImageRef = useRef<HTMLDivElement>(null);
@@ -24,9 +25,19 @@ function ModelosContent() {
     const sectionsRef = useRef<HTMLDivElement>(null);
 
     const visibleGroups = useMemo(() => {
-        if (!categoriaParam) return categoryGroups;
-        return categoryGroups.filter((g) => g.slug === categoriaParam);
-    }, [categoriaParam]);
+        if (buscaParam) {
+            const term = buscaParam.toLowerCase();
+            const matched = products.filter(
+                (p) =>
+                    p.title.toLowerCase().includes(term) ||
+                    p.subtitle.toLowerCase().includes(term) ||
+                    p.category.toLowerCase().includes(term)
+            );
+            return [{ slug: "busca", label: `Resultados para "${buscaParam}"`, items: matched }];
+        }
+        if (categoriaParam) return categoryGroups.filter((g) => g.slug === categoriaParam);
+        return categoryGroups;
+    }, [categoriaParam, buscaParam]);
 
     useGSAP(
         () => {
@@ -167,14 +178,28 @@ function ModelosContent() {
                 </p>
 
                 <div ref={sectionsRef}>
-                    {visibleGroups.map((group) => (
-                        <ProductSection
-                            key={group.slug}
-                            slug={group.slug}
-                            label={group.label}
-                            items={group.items}
-                        />
-                    ))}
+                    {visibleGroups.map((group) =>
+                        group.items.length === 0 ? (
+                            <p
+                                key={group.slug}
+                                className="text-center text-[13px] tracking-[0.12em] uppercase"
+                                style={{
+                                    color: "var(--rose-500)",
+                                    fontFamily: "var(--font-julius)",
+                                    marginTop: "40px",
+                                }}
+                            >
+                                Nenhum produto encontrado para &ldquo;{buscaParam}&rdquo;.
+                            </p>
+                        ) : (
+                            <ProductSection
+                                key={group.slug}
+                                slug={group.slug}
+                                label={group.label}
+                                items={group.items}
+                            />
+                        )
+                    )}
                 </div>
             </div>
         </div>

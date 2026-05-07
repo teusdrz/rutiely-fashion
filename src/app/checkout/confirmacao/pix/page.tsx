@@ -4,16 +4,46 @@ import { useRef, useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import QRCode from "react-qr-code";
 import Navbar from "@/components/home/Navbar";
 import OrderRecap from "@/components/checkout/confirmacao/OrderRecap";
 
 gsap.registerPlugin(useGSAP);
 
 const PIX_EXPIRATION_MINUTES = 30;
+const PIX_CNPJ_KEY = "41244558000108";
+const PIX_CNPJ_DISPLAY = "41.244.558/0001-08";
 
-function generatePixCode(orderNumber: string): string {
-    const hash = btoa(`${orderNumber}-${Date.now()}`).replace(/[=+/]/g, "").slice(0, 32);
-    return `00020126580014br.gov.bcb.pix0136${hash}520400005303986540${Math.random().toFixed(2)}5802BR6009SAO PAULO62140510${orderNumber}6304`;
+function crc16(str: string): string {
+    let crc = 0xffff;
+    for (let i = 0; i < str.length; i++) {
+        crc ^= str.charCodeAt(i) << 8;
+        for (let j = 0; j < 8; j++) {
+            crc = crc & 0x8000 ? (crc << 1) ^ 0x1021 : crc << 1;
+            crc &= 0xffff;
+        }
+    }
+    return crc.toString(16).toUpperCase().padStart(4, "0");
+}
+
+function buildPixPayload(): string {
+    const guiField = `0014br.gov.bcb.pix`;
+    const keyField = `01${String(PIX_CNPJ_KEY.length).padStart(2, "0")}${PIX_CNPJ_KEY}`;
+    const inner = guiField + keyField;
+    const merchantAccount = `26${String(inner.length).padStart(2, "0")}${inner}`;
+    const name = "RUTIELY FASHION";
+    const city = "SAO PAULO";
+    const partial = [
+        "000201",
+        merchantAccount,
+        "52040000",
+        "5303986",
+        "5802BR",
+        `59${String(name.length).padStart(2, "0")}${name}`,
+        `60${String(city.length).padStart(2, "0")}${city}`,
+        "6304",
+    ].join("");
+    return partial + crc16(partial);
 }
 
 function PixContent() {
@@ -42,7 +72,7 @@ function PixContent() {
     const city = searchParams.get("city") || "";
     const cep = searchParams.get("cep") || "";
 
-    const [pixCode] = useState(() => generatePixCode(orderNumber));
+    const [pixCode] = useState(() => buildPixPayload());
     const [copied, setCopied] = useState(false);
     const [timeLeft, setTimeLeft] = useState(PIX_EXPIRATION_MINUTES * 60);
 
@@ -194,61 +224,24 @@ function PixContent() {
                                 </span>
                             </div>
 
-                            {/* QR Code placeholder */}
+                            {/* QR Code */}
                             <div
-                                className="flex items-center justify-center"
                                 style={{
-                                    width: "200px",
-                                    height: "200px",
-                                    border: "2px solid var(--rose-200)",
-                                    background: "#fff",
                                     marginBottom: "24px",
                                     position: "relative",
-                                    overflow: "hidden",
+                                    padding: "12px",
+                                    background: "#fff",
+                                    border: "1px solid #eee0e8",
+                                    opacity: isExpired ? 0.4 : 1,
+                                    transition: "opacity 0.3s",
                                 }}
                             >
-                                {/* Simulated QR pattern */}
-                                <svg width="160" height="160" viewBox="0 0 160 160">
-                                    <rect width="160" height="160" fill="white" />
-                                    {/* Corner markers */}
-                                    <rect x="10" y="10" width="40" height="40" fill="var(--rose-900)" rx="2" />
-                                    <rect x="16" y="16" width="28" height="28" fill="white" rx="1" />
-                                    <rect x="22" y="22" width="16" height="16" fill="var(--rose-900)" rx="1" />
-
-                                    <rect x="110" y="10" width="40" height="40" fill="var(--rose-900)" rx="2" />
-                                    <rect x="116" y="16" width="28" height="28" fill="white" rx="1" />
-                                    <rect x="122" y="22" width="16" height="16" fill="var(--rose-900)" rx="1" />
-
-                                    <rect x="10" y="110" width="40" height="40" fill="var(--rose-900)" rx="2" />
-                                    <rect x="16" y="116" width="28" height="28" fill="white" rx="1" />
-                                    <rect x="22" y="122" width="16" height="16" fill="var(--rose-900)" rx="1" />
-
-                                    {/* Data pattern */}
-                                    {Array.from({ length: 8 }, (_, row) =>
-                                        Array.from({ length: 8 }, (_, col) => {
-                                            const show = (row * 7 + col * 3) % 3 !== 0;
-                                            if (!show) return null;
-                                            const x = 58 + col * 6;
-                                            const y = 58 + row * 6;
-                                            return <rect key={`${row}-${col}`} x={x} y={y} width="5" height="5" fill="var(--rose-900)" />;
-                                        })
-                                    )}
-
-                                    {/* Side data */}
-                                    {Array.from({ length: 6 }, (_, i) => {
-                                        const show = i % 2 === 0;
-                                        if (!show) return null;
-                                        return (
-                                            <g key={`side-${i}`}>
-                                                <rect x={58 + i * 8} y="14" width="5" height="5" fill="var(--rose-900)" />
-                                                <rect x={58 + i * 8} y="140" width="5" height="5" fill="var(--rose-900)" />
-                                                <rect x="14" y={58 + i * 8} width="5" height="5" fill="var(--rose-900)" />
-                                                <rect x="140" y={58 + i * 8} width="5" height="5" fill="var(--rose-900)" />
-                                            </g>
-                                        );
-                                    })}
-                                </svg>
-
+                                <QRCode
+                                    value={pixCode}
+                                    size={200}
+                                    fgColor="#3b1a2a"
+                                    bgColor="#ffffff"
+                                />
                                 {isExpired && (
                                     <div
                                         className="absolute inset-0 flex items-center justify-center"
@@ -264,7 +257,35 @@ function PixContent() {
                                 )}
                             </div>
 
-                            {/* PIX Code */}
+                            {/* Chave PIX */}
+                            <div className="w-full" style={{ maxWidth: "400px", marginBottom: "16px" }}>
+                                <label
+                                    className="text-[9px] tracking-[0.2em] uppercase block"
+                                    style={{
+                                        color: "var(--rose-600)",
+                                        fontFamily: "var(--font-julius)",
+                                        marginBottom: "8px",
+                                    }}
+                                >
+                                    Chave PIX (CNPJ)
+                                </label>
+                                <div
+                                    style={{
+                                        border: "1px solid #d8c8d0",
+                                        background: "#fff",
+                                        padding: "12px 16px",
+                                        letterSpacing: "0.08em",
+                                        fontSize: "14px",
+                                        color: "var(--rose-900)",
+                                        fontFamily: "var(--font-julius)",
+                                        textAlign: "center",
+                                    }}
+                                >
+                                    {PIX_CNPJ_DISPLAY}
+                                </div>
+                            </div>
+
+                            {/* PIX Copia e Cola */}
                             <div className="w-full" style={{ maxWidth: "400px" }}>
                                 <label
                                     className="text-[9px] tracking-[0.2em] uppercase block"
