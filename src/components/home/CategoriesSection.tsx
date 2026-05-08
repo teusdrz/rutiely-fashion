@@ -50,7 +50,7 @@ const CATEGORIES: CategoryItem[] = [
         description: "Looks completos para todas as ocasiões.",
         cta: "EXPLORAR",
         href: "/modelos?categoria=conjuntos",
-        image: "/Conjuntos/ConjuntoBlazer.jpeg",
+        image: "/images/vestidos/modelos-vestidos/Vestido-Branca/WhatsApp Image 2026-05-06 at 17.49.24.jpeg",
         layout: "full",
     },
     {

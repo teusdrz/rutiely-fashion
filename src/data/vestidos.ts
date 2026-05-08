@@ -5,22 +5,6 @@ const OFFER = "FRETE GRÁTIS ACIMA DE R$ 150";
 
 export const vestidos: Product[] = [
     {
-        id: 201,
-        title: "Vestido Branco Clássico",
-        subtitle: "Pureza e elegância para qualquer ocasião",
-        price: "R$ 89,90",
-        priceValue: 89.9,
-        images: [
-            `${BASE}/Vestido-Branca/WhatsApp%20Image%202026-05-06%20at%2017.49.24.jpeg`,
-            `${BASE}/Vestido-Branca/WhatsApp%20Image%202026-05-06%20at%2017.49.25.jpeg`,
-            `${BASE}/Vestido-Branca/WhatsApp%20Image%202026-05-06%20at%2017.49.25%20(1).jpeg`,
-            `${BASE}/Vestido-Branca/WhatsApp%20Image%202026-05-06%20at%2017.49.25%20(2).jpeg`,
-        ],
-        category: "vestidos",
-        colors: [{ name: "Branco", hex: "#f0ede8" }],
-        offer: OFFER,
-    },
-    {
         id: 202,
         title: "Vestido Branco Fluido",
         subtitle: "Leveza e movimento em cada detalhe",

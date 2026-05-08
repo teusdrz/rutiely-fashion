@@ -1,29 +1,24 @@
 import type { Product } from "./types";
 
-const BASE = "/Conjuntos";
+const BASE = "/images/vestidos/modelos-vestidos";
 const OFFER = "FRETE GRÁTIS ACIMA DE R$ 150";
 
 export const conjuntos: Product[] = [
+    // ─── Conjunto Branco ──────────────────────────────────────────────────────
     {
         id: 101,
-        title: "Conjunto Blazer",
-        subtitle: "Elegância estruturada para looks marcantes",
-        price: "R$ 59,90",
-        priceValue: 59.9,
-        images: [`${BASE}/ConjuntoBlazer.jpeg`],
+        title: "Conjunto Branco",
+        subtitle: "Cropped + saia combinando para um visual impecável",
+        price: "R$ 89,90",
+        priceValue: 89.9,
+        images: [
+            `${BASE}/Vestido-Branca/WhatsApp%20Image%202026-05-06%20at%2017.49.24.jpeg`,
+            `${BASE}/Vestido-Branca/WhatsApp%20Image%202026-05-06%20at%2017.49.25.jpeg`,
+            `${BASE}/Vestido-Branca/WhatsApp%20Image%202026-05-06%20at%2017.49.25%20(1).jpeg`,
+            `${BASE}/Vestido-Branca/WhatsApp%20Image%202026-05-06%20at%2017.49.25%20(2).jpeg`,
+        ],
         category: "conjuntos",
-        colors: [{ name: "Nude", hex: "#c8a882" }],
-        offer: OFFER,
-    },
-    {
-        id: 102,
-        title: "Conjunto Blazer e Calça",
-        subtitle: "Alfaiataria moderna com pegada feminina",
-        price: "R$ 59,90",
-        priceValue: 59.9,
-        images: [`${BASE}/ConjuntoBlazerCalca.jpeg`],
-        category: "conjuntos",
-        colors: [{ name: "Preto", hex: "#2a2a2a" }],
+        colors: [{ name: "Branco", hex: "#f0ede8" }],
         offer: OFFER,
     },
 ];
