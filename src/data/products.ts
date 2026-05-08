@@ -4,12 +4,14 @@ import type { Product } from "./types";
 import { camisetas } from "./camisetas";
 import { conjuntos } from "./conjuntos";
 import { vestidos } from "./vestidos";
+import { saias } from "./saias";
 
 export { camisetas } from "./camisetas";
 export { conjuntos } from "./conjuntos";
 export { vestidos } from "./vestidos";
+export { saias } from "./saias";
 
-export const products: Product[] = [...camisetas, ...conjuntos, ...vestidos];
+export const products: Product[] = [...camisetas, ...conjuntos, ...vestidos, ...saias];
 
 export const productColors = [
     { name: "Rosê", hex: "#c9a0a5" },
@@ -29,4 +31,5 @@ export const categoryGroups: CategoryGroup[] = [
     { slug: "camisetas", label: "Camisetas", items: camisetas },
     { slug: "conjuntos", label: "Conjuntos", items: conjuntos },
     { slug: "vestidos", label: "Vestidos", items: vestidos },
+    { slug: "saias", label: "Saias", items: saias },
 ];

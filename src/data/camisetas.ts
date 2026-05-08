@@ -128,4 +128,23 @@ export const camisetas: Product[] = [
         colors: [{ name: "Cinza", hex: "#9a9a9a" }],
         offer: OFFER,
     },
+    // ─── Body Camiseta ────────────────────────────────────────────────────────
+    {
+        id: 9,
+        title: "Body Camiseta",
+        subtitle: "Modelagem body com acabamento impecável",
+        price: "R$ 89,99",
+        priceValue: 89.99,
+        images: [
+            "/images/body-camisetas-modelos/WhatsApp%20Image%202026-05-07%20at%2019.55.43.jpeg",
+            "/images/body-camisetas-modelos/WhatsApp%20Image%202026-05-07%20at%2019.56.30.jpeg",
+            "/images/body-camisetas-modelos/WhatsApp%20Image%202026-05-07%20at%2019.57.38.jpeg",
+            "/images/body-camisetas-modelos/WhatsApp%20Image%202026-05-07%20at%2019.58.39.jpeg",
+            "/images/body-camisetas-modelos/WhatsApp%20Image%202026-05-07%20at%2020.25.58.jpeg",
+            "/images/body-camisetas-modelos/WhatsApp%20Image%202026-05-07%20at%2020.26.46.jpeg",
+        ],
+        category: "camisetas",
+        colors: [{ name: "Preto", hex: "#2a2a2a" }],
+        offer: OFFER,
+    },
 ];
