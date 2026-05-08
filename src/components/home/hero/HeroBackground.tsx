@@ -1,11 +1,10 @@
 "use client";
 
 import { forwardRef } from "react";
-import Image from "next/image";
 
 /**
- * Full-bleed background image with a subtle dark gradient overlay
- * so the white text remains readable over any photo.
+ * Full-bleed background video with a subtle dark gradient overlay
+ * so the white text remains readable.
  */
 const HeroBackground = forwardRef<HTMLDivElement>(
     function HeroBackground(_, ref) {
@@ -15,14 +14,14 @@ const HeroBackground = forwardRef<HTMLDivElement>(
                 className="absolute inset-0"
                 style={{ visibility: "hidden" }}
             >
-                {/* Editorial photo — fill the entire section */}
-                <Image
-                    src="/images/hero-model.png"
-                    alt="Modelo Rutiely Fashion"
-                    fill
-                    priority
-                    className="object-cover object-center"
-                    sizes="100vw"
+                {/* Editorial video — fill the entire section */}
+                <video
+                    src="/video-home/WhatsApp Video 2026-05-08 at 12.55.59.mp4"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="absolute inset-0 w-full h-full object-cover object-center"
                 />
 
                 {/* Gradient overlay: lighter at center, darker toward edges */}
